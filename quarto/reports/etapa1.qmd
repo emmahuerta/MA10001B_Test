@@ -73,6 +73,8 @@ summary(M20selec)
 
 Se verifica que ya no hay datos perdidos en mi data set de interés.
 
+prueba 
+
 
 
 
