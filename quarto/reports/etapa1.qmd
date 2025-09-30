@@ -12,6 +12,8 @@ execute:
 
 # Exploración de la base de datos
 
+Prueba
+
 ```{r}
 library(tidyverse)
 library(here)
