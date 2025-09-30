@@ -7,12 +7,26 @@ format:
     toc: false          # Do not include table of contents
 
 execute:
-  echo: true          # Show code in the output document
+  echo: false          # Show code in the output document
 ---
+##Revisión bibliográfica.
+Resume brevemente el trabajo realizado en la PARTE I (puntos 1, 3 y 4).
+Debe tener al menos cuatro citas de referencias confiables sobre el tema.
+No debe ser menor a 2 páginas y no mayor a 3.
+
+##Objetivo de Investigación.
+Describe el problema específico que abordarán (preguntas de investigación u objetivo del proyecto)
+Justifica tu pregunta de indagación en términos de por qué es importante indagar en estos temas en términos del impacto social que puede tener. Debes retomar la PARTE I para concretar la importancia de tu pregunta dentro de la problemática general del reto
+Debe tener 2 páginas.
+
+##Descripción de los datos.
+Haz una breve descripción de las bases de datos proporcionadas (punto 3 de la Parte 2)
+Elabora una breve resumen de las variables seleccionadas y su justificación (punto 5 de la Parte 2)
+Debe tener entre 2 y 3 páginas
+
+
 
 # Exploración de la base de datos
-
-Prueba
 
 ```{r}
 library(tidyverse)
@@ -20,6 +34,11 @@ library(here)
 
 M19 <- read_csv(here("data", "Datos_molec_2019.csv"))
 M20 <- read_csv(here("data", "Datos_molec_2020.csv"))
+M21 <- read_csv(here("data", "Datos_molec_2021.csv"))
+M22 <- read_csv(here("data", "Datos_molec_2022.csv"))
+M23 <- read_csv(here("data", "Datos_molec_2023.csv"))
+M24 <- read_csv(here("data", "Datos_molec_2024.csv"))
+
 str(M19)
 ```
 
@@ -28,7 +47,12 @@ str(M19)
 ## Diccionarios
 
 ```{r}
-Dicc19 <- read_csv(here("data", "Diccionario_molec_2019.csv"))
+Dicc19 <- read_csv(here("data", "Diccionario_molec_2019-1.csv"))
+Dicc20 <- read_csv(here("data", "Diccionario_molec_2020-1.csv"))
+Dicc21 <- read_csv(here("data", "Diccionario_molec_2021-1.csv"))
+Dicc22 <- read_csv(here("data", "Diccionario_molec_2022-1.csv"))
+Dicc23 <- read_csv(here("data", "Diccionario_molec_2023-1.csv"))
+Dicc24 <- read_csv(here("data", "Diccionario_molec_2024-1.csv"))
 ```
 
 El diccionario indica qué significan las variables en el contexto del problema, pero no a qué equivalen sus categorías. Eso se debe leer en el archivo de descriptor de las preguntas y en el cuestionario.
@@ -73,9 +97,11 @@ M20selec <- na.omit(M20selec)
 summary(M20selec)
 ```
 
-Se verifica que ya no hay datos perdidos en mi data set de interés.
-
-prueba 
+##Fuentes bibliográficas y de datos
+Contendrá al menos 4 referencias confiables
+Por lo menos habrá 2 referencias a libros o artículos
+Incluye la fuente de los datos: página de MOLEC
+Incluye la liga a tu código de R, que estará disponible en un espacio de web.
 
 
 
