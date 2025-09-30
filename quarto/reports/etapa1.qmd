@@ -1,18 +1,152 @@
 ---
 title: "Etapa 1. El contexto"
-author: "Blanca Ruiz"
+author: "Abraham Vicente González - A01199401
+Maria Alejandra Peiro Loera - A00841878
+Emma Huerta Villafuerte - A01723584
+Sebastian Aleman Cervantes - A00841034
+Natalia Ixchel Reynoso Ramírez - A01352603
+"
 date: today
 format:
   docx:
     toc: false          # Do not include table of contents
 
 execute:
-  echo: true          # Show code in the output document
+  echo: false          # Show code in the output document
 ---
 
-# Exploración de la base de datos
+## **Revisión bibliográfica**
 
-Prueba
+**Contexto y problemática general**
+
+Este proyecto se enfoca en el análisis de los hábitos de lectura en México a partir de los datos presentados por el Módulo de Lectura (MOLEC) que fue implementado por el INE desde 2015. Como fue señalado por Salazar Embarcadero (2013) en el texto “Leer o no leer”, existe en México una gran problemática: si bien se reconoce la importancia de la lectura tanto para el desarrollo personal como académico, existen aún muchas barreras que limitan la lectura en la población mexicana. 
+
+El contexto educativo 	mexicano se enfrenta con otro reto, que es, de acuerdo con García y Zepeda (2018) que la lectura y el fomento de esta a un público joven que se encontraron con un sistema educativo que no estaba preparado para adaptarse a cambios en necesidades generacionales. Este contexto se ve agravado por el contexto social, especialmente familiar, donde se priorizan las nuevas tecnologías y el internet y es poco favorable a la lectura.\
+
+**Propuesta de investigación**
+
+Nuestra investigación se centra en las siguientes preguntas fundamentales: Para comenzar, buscamos determinar cómo coinciden las variables sociodemográficas, ya sea edad, género, nivel educativo, vivienda, etc. en los hábitos de lectura de los mexicanos adultos según los datos dados. De esta manera, podremos observar de mejor manera patrones específicos que pudieron ser desapercibidos en otros análisis.
+
+Ahora, investigamos qué factores motivadores de la lectura (fines académicos o profesionales, de diversión o de actualización en datos actuales) muestran una mayor relación con la consistencia en la lectura de los mexicanos. Así, se puede analizar las actuales estrategias de fomento de lectura y determinar unas más eficientes.
+
+Finalmente, analizamos cómo ha evolucionado la relación entre la accesibilidad a materiales digitales y los hábitos de lectura durante los años 2015 al 2023, poniendo especial atención al periodo de la pandemia.
+
+\
+
+**Relevancia de los datos**
+
+Esta investigación es de alta importancia ya que su potencial se centra en la transformación de las estrategias de incentivación de la lectura a través de un enfoque estadístico, basado en datos concretos. Nuestro trabajo espera contribuir de manera específica a la propuesta de políticas gubernamentales eficientes, enfatizando en la identificación de cómo variables como el nivel educativo y la vivienda pueden influir en los hábitos de lectura y cómo esto permitirá diseñar cambios contextualizados.	
+
+Además, al determinar cuales son los elementos motivacionales que muestran mayor efectividad para sostener los hábitos de lectura, instituciones gubernamentales podrán enfocar sus recursos en campañas que enfaticen las motivaciones más eficientes. 
+
+Ahora bien, para abordar nuestras preguntas de investigación, el análisis va a estar centrado en variables clave del MOLEC incluyendo las variables sociodemográficas mencionadas, los hábitos de lectura, factores motivacionales y su evolución a través de los años, permitiendo identificar las tendencias y cambios en los hábitos de lectura de los mexicanos, especialmente durante y después de la pandemia.
+
+Para concluir, responder las preguntas de investigación propuesta no solo nos permitirá evaluar la eficiencia y el rendimiento de la inversión en el MOLEC, sino también contribuirá los datos en acciones concretas que aporten a un cambio en la lectura entre los mexicanos, mejorando sus hábitos de lectura. 
+
+\
+
+## **Objetivo de Investigación**
+
+La lectura es una de las herramientas más importantes que tenemos para crecer como personas y como sociedad. Es una forma de aprender, desarrollar el pensamiento crítico y construir una ciudadanía más informada. Por eso, medir el estado de la lectura en el país es importante. Es un indicador de qué tan saludable es nuestra vida cultural y educativa.
+
+Al revisar los videos y escuchar la charla del Dr. Marco, queda claro que en México la situación de la lectura es un tema de preocupación. En el video "En México se lee poco… y cada vez menos", el investigador nos muestra una realidad que parece ir en picada: no solo la cantidad de personas que leen, sino también el promedio de libros que se leen al año. El otro video, "¿Por qué cada vez leemos menos en México?", profundiza en las causas. Esto nos pone a pensar sobre lo que nos distrae y cómo tanto en la escuela como en casa no siempre se impulsa el hábito de leer como debería de ser. "La lectura más allá de las formas" dice algo importante, que la lectura no ha desaparecido, simplemente se ha transformado. Hoy leemos en nuestros teléfonos,y consumimos redes sociales de maneras que antes ni imaginábamos. Esto significa que cuando medimos la lectura, no podemos limitarnos a los libros comunes.
+
+La preocupación que llevó al INEGI a crear la encuesta MOLEC en 2015 fue justamente esa: necesitaban datos para entender cómo leen los mexicanos y, a partir de ahí, diseñar estrategias que funcionaran para promover la lectura. No somos los únicos con esta inquietud: países como España y Argentina también hacen sus propios estudios sobre el tema. Aunque cada uno le entre de manera diferente, al final todos buscamos lo mismo: descifrar cómo lee la gente, qué lee y por qué lo hace.
+
+El verdadero reto para todos ha sido ponernos de acuerdo en qué consideramos "lectura" y cómo capturar estas nuevas formas de leer que han ido apareciendo. Aquí es donde el INEGI se lució: en vez de quedarse con una visión limitada, preguntaron por todo tipo de materiales como libros, revistas, periódicos, lo que sea. Y en cualquier formato, ya sea en papel o en digital.
+
+Si bien la encuesta nos ha dado información valiosa, todavía no existe un reporte oficial que nos diga si en realidad se cumplieron esos objetivos iniciales de fomentar la lectura. Y justo por eso nuestra investigación cobra tanta importancia.\
+
+**Objetivo de Investigación: El impacto de la pandemia en la lectura**
+
+El problema que queremos abordar en este proyecto es el efecto de la pandemia de COVID-19 en los hábitos de lectura en México. Por eso, nuestra pregunta de investigación es:
+
+**¿Ha influido la pandemia de COVID-19 en los hábitos de lectura de los mexicanos de 18 años y más?**
+
+Pensamos en esta pregunta porque es importante para entender el impacto social de la pandemia. Durante la cuarentena, la vida de todos cambió. Las formas de hacer las cosas cambiaron y muchas personas tuvieron más tiempo en casa. Al investigar si la lectura aumentó, disminuyó o solo cambió de formato, podemos entender cómo se adaptaron las personas a este nuevo contexto.\
+
+Nuestra pregunta nos ayuda ir más allá del simple “sí o no”. Podemos analizar:
+
+-   Si la gente leyó más o menos libros en general.
+
+-   Si hubo un cambio masivo del libro impreso al formato digital o a los audiolibros.
+
+-   Si las motivaciones para leer cambiaron (por ocio, para informarse sobre la pandemia, por estudio, etc.).
+
+Al responder a estas preguntas, nuestro proyecto tendrá un impacto social significativo. Los resultados nos pueden ayudar a proponer acciones concretas para las campañas de fomento de la lectura. Por ejemplo, si descubrimos que el formato digital creció mucho, podríamos sugerir que el gobierno y las editoriales inviertan más en bibliotecas digitales públicas y en plataformas accesibles. Conocer la realidad de la lectura post-pandemia nos permitirá orientar mejor los esfuerzos para que el hábito de leer se fortalezca en el país.
+
+\
+\
+
+## **Descripción de los datos**
+
+**Descripción y Adecuación de las Bases de Datos MOLEC**
+
+Las bases de datos disponibles corresponden a la Encuesta MOLEC, una medición anual que ofrece una fotografía detallada de la población lectora en México. Contamos con los archivos de datos crudos y sus respectivos diccionarios de variables para los años 2019, 2020, 2021, 2022, 2023 y 2024. Todas las bases de datos tienen 108 columnas que corresponden a las variables, mientras que cada una tiene diferentes filas dependiendo del número de personas que realizaron la encuesta. Para el año 2019 tenemos 1980 entradas, para 2020 tenemos 2010, para 2021 tenemos 1948, en 2022 tenemos 2016 filas, en 2023 tenemos 1996, y finalmente para 2024 tenemos 2016 entradas. 
+
+La estructura de los datos es consistente a lo largo de la serie, lo cual es fundamental para el análisis de tendencias. Cada registro representa un individuo, y las columnas cubren desde datos sociodemográficos hasta preguntas específicas sobre el hábito de lectura. El diccionario de variables nos ayuda a entender los datos, pues detalla el contenido de cada columna, el tipo de dato y, crucialmente, los códigos de respuesta.
+
+\
+
+**Selección de Conjuntos de Datos para el Análisis**
+
+Para determinar la influencia de la pandemia en la lectura, es necesario establecer un marco temporal que capture las fases clave de la crisis. Por lo tanto, se ha decidido utilizar las bases de datos correspondientes a los años 2019, 2020, 2021 y 2022.
+
+2019 (Línea Base Pre-Pandémica): Es el punto de referencia indispensable. Los datos de este año reflejan los hábitos de lectura antes de la pandemia, proporcionando el promedio normal de libros leídos, la penetración del formato digital y las motivaciones dominantes en un contexto de normalidad social.
+
+2020 y 2021 (Fase de Confinamiento y Restricciones): Estos años capturan el pico del impacto pandémico. El 2020 y 2021 se caracterizaron por el confinamiento estricto, el trabajo y estudio a distancia, y el cierre temporal de espacios públicos. Es en este periodo donde se esperaría observar los cambios más drásticos: un posible aumento en la lectura debido al mayor tiempo en casa, un incremento en el consumo digital y un cambio en la motivación hacia el ocio o la información relacionada con la crisis.
+
+2022 (Fase de Transición y Nueva Normalidad): La medición de 2022 es crucial para entender la reversibilidad del impacto. Con el regreso gradual a las actividades presenciales, es necesario saber si el tiempo de lectura se redujo debido a la "recuperación" de la falta de tiempo, o si los nuevos hábitos (como la lectura digital) se consolidaron.
+
+El descarte de la base de datos de 2023 y 2024, aun siendo útil, se justifica debido a la precisión temporal: el periodo 2019-2022 encapsula de manera coherente el fenómeno de la pandemia (antes, durante y transición) para responder a la pregunta central del proyecto.
+
+\
+
+**Resumen y Justificación de las Variables Seleccionadas**
+
+Para ofrecer una respuesta multifacética a la pregunta de investigación, se seleccionaron siete variables, que combinan métricas de intensidad, formato y contexto, asegurando la inclusión de al menos dos variables cuantitativas.
+
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Nombre de variable** | **Tipo de variable** | **Descripción y Justificación**                                                                                                                                                                                                                                                                                                            |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p4                     | Cuantitativa         | **Número de libros leídos en los últimos doce meses**. Esta es la métrica más directa para medir la intensidad del hábito. El análisis de su media móvil de 2019 a 2022 revelará si el confinamiento elevó o disminuyó el promedio nacional de consumo de libros. Es el indicador central de cantidad.                                     |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p26                    | Cuantitativa         | **Minutos continuos dedicados a la lectura.** Mide la calidad y profundidad del hábito. Un aumento en los minutos continuos podría indicar que, al disponer de más tiempo, los lectores se involucraron en lecturas más largas y concentradas, un fenómeno asociado a la disponibilidad de ocio.                                           |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p3_4                   | Categórica (Binaria) | **¿Leyó revistas en los últimos doce meses?** Esta variable captura el consumo de otros materiales no-libros (revistas). Es relevante porque el consumo de información rápida pudo haber aumentado para seguir el pulso de la crisis, contrastando con el consumo de libros más profundo.                                                  |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p8_1                   | Categórica (Binaria) | **El libro leído, ¿se encontraba en formato digital?** Mide el cambio de formato. Ante el cierre de espacios físicos, esta variable es crítica para confirmar la hipótesis de una aceleración en la adopción de libros electrónicos (e-books) y otros dispositivos de lectura digital.                                                     |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p19                    | Categórica (Nominal) | **Motivo principal para leer el libro.** Analiza la motivación. Se espera que la lectura por entretenimiento/ocio se haya incrementado, desplazando posiblemente a la lectura por obligación académica o laboral, debido al cambio en el estilo de vida.                                                                                   |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| p32                    | Categórica (Nominal) | **Motivo principal por el que no lee.** Clave para entender las barreras persistentes. Si la "falta de tiempo" se reduce en 2020, pero otras respuestas como la "falta de interés" o la "falta de dinero" se mantienen o aumentan, indica que los desafíos estructurales de la lectura son más profundos que la simple gestión del tiempo. |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| edad                   | Cuantitativa         | **Edad del informante.** Variable de control sociodemográfico. La segmentación por edad es esencial, ya que las generaciones más jóvenes y las de mayor edad tuvieron experiencias de confinamiento y adaptaciones digitales muy distintas, influenciando de forma desigual sus patrones de lectura.                                       |
++------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+##  Fuentes bibliográficas y de datos 
+
+Camacho-Quiroz, R. M.,  (2013). La lectura en México, un problema multifactorial. Contribuciones desde Coatepec,  (25), 153-156. <https://www.redalyc.org/comocitar.oa?id=28128741003>
+
+García, A. L. F., & Zepeda, F. J. A. (2018). Programas de fomento a la lectura como política de bienestar estudiantil. Caso: UAEM. <https://www.redalyc.org/journal/676/67658492009/html/> 
+
+Hernández, M. (2019). La evaluación de la comprensión lectora en México        \| Perfiles Educativos. <https://perfileseducativos.unam.mx/iisue_pe/index.php/perfiles/article/view/59087/52414>
+
+INEGI. (2024). MÓDULO SOBRE LECTURA (MOLEC) 2024. En INEGI. <https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2024/molec/molec2024.pdf> 
+
+INEGI. (s. f.). Módulo sobre Lectura (MOLEC). <https://www.inegi.org.mx/programas/molec/#microdatos> 
+
+Maíz, C. (2025). Revistas Libro completo pdf. Uncu. <https://www.academia.edu/129255861/Revistas_Libro_completo_pdf> 
+
+Saulés, S. (2016). La promoción, enseñanza y medición de la lectura en México. Un análisis hermenéutico. \[Tesis de doctorado, Universidad Pedagógica Nacional\]. <http://200.23.113.51/pdf/35487.pdf>
+
+Zaid, G. (2006). La lectura como fracaso del sistema educativo. En Letras Libres. México, noviembre, pp. 40–41. Consultado el 02 de abril de 2015 desde: <http://www.letraslibres.com/revista/convivio/la-lectura-como-fracaso-del-sistema-educativo>
+
+Link Github: <https://github.com/emmahuerta/MA10001B_Test>
+
+\
+
+## Exploración de la base de datos
 
 ```{r}
 library(tidyverse)
@@ -20,15 +154,23 @@ library(here)
 
 M19 <- read_csv(here("data", "Datos_molec_2019.csv"))
 M20 <- read_csv(here("data", "Datos_molec_2020.csv"))
-str(M19)
+M21 <- read_csv(here("data", "Datos_molec_2021.csv"))
+M22 <- read_csv(here("data", "Datos_molec_2022.csv"))
+M23 <- read_csv(here("data", "Datos_molec_2023.csv"))
+M24 <- read_csv(here("data", "Datos_molec_2024.csv"))
 ```
 
-1980 observaciones con 108 variables. La mayoría de las variables son cualitativas, pero están insertas como números. Se tiene que revisar en el contexto del problema cuáles son realmente numéricas.
+Todas las bases de datos tienen 108 columnas que corresponden a las variables, mientras que cada una tiene diferentes filas dependiendo del número de personas que realizaron la encuesta. Para el año 2019 tenemos 1980 entradas, para 2020 tenemos 2010, para 2021 tenemos 1948, en 2022 tenemos 2016 filas, en 2023 tenemos 1996, y finalmente para 2024 tenemos 2016 entradas. La mayoría de las variables son cualitativas, pero están insertas como números. Se tiene que revisar en el contexto del problema cuáles son realmente numéricas.
 
 ## Diccionarios
 
 ```{r}
-Dicc19 <- read_csv(here("data", "Diccionario_molec_2019.csv"))
+Dicc19 <- read_csv(here("data", "Diccionario_molec_2019-1.csv"))
+Dicc20 <- read_csv(here("data", "Diccionario_molec_2020-1.csv"))
+Dicc21 <- read_csv(here("data", "Diccionario_molec_2021-1.csv"))
+Dicc22 <- read_csv(here("data", "Diccionario_molec_2022-1.csv"))
+Dicc23 <- read_csv(here("data", "Diccionario_molec_2023-1.csv"))
+Dicc24 <- read_csv(here("data", "Diccionario_molec_2024-1.csv"))
 ```
 
 El diccionario indica qué significan las variables en el contexto del problema, pero no a qué equivalen sus categorías. Eso se debe leer en el archivo de descriptor de las preguntas y en el cuestionario.
@@ -36,18 +178,36 @@ El diccionario indica qué significan las variables en el contexto del problema,
 ## Resumen de las variables
 
 ```{r}
+str(M19)
 summary(M19)
+
+str(M20)
+summary(M20)
+
+str(M21)
+summary(M21)
+
+str(M22)
+summary(M22)
+
+str(M23)
+summary(M23)
+
+str(M24)
+summary(M24)
 ```
 
-Aunque en la mayor parte de las variables, las medidas calculadas (media, mediana, mínimo, máximo), en muchas no tienen sentido porque son categóricas. El summary permite ver si la variable tiene datos faltantes (NA´s), por ejemplo, la variable anio tiene valores faltantes.
+Aunque en la mayor parte de las variables, las medidas calculadas (media, mediana, mínimo, máximo), en muchas no tienen sentido porque son categóricas. El summary permite ver si la variable tiene datos faltantes (NA´s).
 
-# Selección de las variables
-
-Por ejemplo, si me interesa analizar las variables 3 a 34 (se revisa en la base de datos el número de columna que tiene la variable de interés):
+## Selección de las variables
 
 ```{r}
-M19selec <- M19[3:34]
-M20selec <- M20[3:34]
+M19selec <- M19[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M20selec <- M20[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M21selec <- M21[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M22selec <- M22[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M23selec <- M23[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M24selec <- M24[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
 ```
 
 ## Datos perdidos o faltantes
@@ -55,29 +215,24 @@ M20selec <- M20[3:34]
 Visualizo si las variables de interés tienen datos perdidos:
 
 ```{r}
+summary(M19selec)
+sapply(M19selec, function(x) sum(is.na(x)))
+
 summary(M20selec)
+sapply(M20selec, function(x) sum(is.na(x)))
+
+summary(M21selec)
+sapply(M21selec, function(x) sum(is.na(x)))
+
+summary(M22selec)
+sapply(M22selec, function(x) sum(is.na(x)))
+
+summary(M23selec)
+sapply(M23selec, function(x) sum(is.na(x)))
+
+summary(M24selec)
+sapply(M24selec, function(x) sum(is.na(x)))
+
 ```
 
-La variable anio tiene 39 datos faltantes. Anio está en la columna 10 en la base de datos de las variables de interés.
-
-Para calcular el porcentaje de datos faltantes que tiene y que se los vamos a quitar: 
-
-```{r}
-sum(is.na(M20selec[, 10])) / length(M20selec[, 10])
-```
-
-## Para quitar los NA's
-
-```{r}
-M20selec <- na.omit(M20selec)
-summary(M20selec)
-```
-
-Se verifica que ya no hay datos perdidos en mi data set de interés.
-
-prueba 
-
-
-
-
-
+Como ninguna de nuestras variables tiene datos faltantes no es necesario eliminar nada.

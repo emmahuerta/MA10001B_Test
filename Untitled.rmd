@@ -1,0 +1,123 @@
+---
+title: "prueba"
+author: "Emma Huerta Villafuerte"
+date: "2025-10-02"
+output: html_document
+---
+
+## **Revisión bibliográfica**
+
+Resume brevemente el trabajo realizado en la PARTE I (puntos 1, 3 y 4). Debe tener al menos cuatro citas de referencias confiables sobre el tema. No debe ser menor a 2 páginas y no mayor a 3.
+
+## **Objetivo de Investigación**
+
+Describe el problema específico que abordarán (preguntas de investigación u objetivo del proyecto) Justifica tu pregunta de indagación en términos de por qué es importante indagar en estos temas en términos del impacto social que puede tener. Debes retomar la PARTE I para concretar la importancia de tu pregunta dentro de la problemática general del reto Debe tener 2 páginas.
+
+## **Descripción de los datos**
+
+Haz una breve descripción de las bases de datos proporcionadas (punto 3 de la Parte 2) Elabora una breve resumen de las variables seleccionadas y su justificación (punto 5 de la Parte 2) Debe tener entre 2 y 3 páginas
+
+#### Exploración de la base de datos
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(here)
+
+M19 <- read_csv(here("data", "Datos_molec_2019.csv")) %>% select(-p6_6esp, -p5_6esp,-p11_6esp,-p9_5esp,-p12_9esp,-p15_5esp,-p17_6esp, -p21_5esp,-p25_6esp,-p28_7esp, -p32_6esp)
+M20 <- read_csv(here("data", "Datos_molec_2020.csv"))%>% select(-p6_6esp, -p5_6esp,-p11_6esp,-p9_5esp,-p12_9esp,-p15_5esp,-p17_6esp, -p21_5esp,-p25_6esp,-p28_7esp, -p32_6esp)
+M21 <- read_csv(here("data", "Datos_molec_2021.csv"))%>% select(-p6_6esp, -p5_6esp,-p11_6esp,-p9_5esp,-p12_9esp,-p15_5esp,-p17_6esp, -p21_5esp,-p25_6esp,-p28_7esp, -p32_6esp)
+M22 <- read_csv(here("data", "Datos_molec_2022.csv"))%>% select(-p6_6esp, -p5_6esp,-p11_6esp,-p9_5esp,-p12_9esp,-p15_5esp,-p17_6esp, -p21_5esp,-p25_6esp,-p28_7esp, -p32_6esp)
+ 
+M24 <- read_csv(here("data", "Datos_molec_2024.csv"))%>% select(-p6_6esp, -p5_6esp,-p11_6esp,-p9_5esp,-p12_9esp,-p15_5esp,-p17_6esp, -p21_5esp,-p25_6esp,-p28_7esp, -p32_6esp)
+```
+
+1980 observaciones con 108 variables. La mayoría de las variables son cualitativas, pero están insertas como números. Se tiene que revisar en el contexto del problema cuáles son realmente numéricas.
+
+## Diccionarios
+
+```{r, echo=FALSE}
+Dicc19 <- read_csv(here("data", "Diccionario_molec_2019-1.csv"))
+Dicc20 <- read_csv(here("data", "Diccionario_molec_2020-1.csv"))
+Dicc21 <- read_csv(here("data", "Diccionario_molec_2021-1.csv"))
+Dicc22 <- read_csv(here("data", "Diccionario_molec_2022-1.csv"))
+Dicc23 <- read_csv(here("data", "Diccionario_molec_2023-1.csv"))
+Dicc24 <- read_csv(here("data", "Diccionario_molec_2024-1.csv"))
+```
+
+El diccionario indica qué significan las variables en el contexto del problema, pero no a qué equivalen sus categorías. Eso se debe leer en el archivo de descriptor de las preguntas y en el cuestionario.
+
+## Resumen de las variables
+
+```{r}
+str(M19)
+summary(M19)
+
+str(M20)
+summary(M20)
+
+str(M21)
+summary(M21)
+
+str(M22)
+summary(M22)
+
+str(M23)
+summary(M23)
+
+str(M24)
+summary(M24)
+```
+
+Aunque en la mayor parte de las variables, las medidas calculadas (media, mediana, mínimo, máximo), en muchas no tienen sentido porque son categóricas. El summary permite ver si la variable tiene datos faltantes (NA´s), por ejemplo, la variable anio tiene valores faltantes.
+
+# Selección de las variables
+
+Por ejemplo, si me interesa analizar las variables 3 a 34 (se revisa en la base de datos el número de columna que tiene la variable de interés):
+
+```{r, echo=FALSE}
+M19selec <- M19[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M20selec <- M20[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M21selec <- M21[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M22selec <- M22[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M23selec <- M23[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M24selec <- M24[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+```
+
+## Datos perdidos o faltantes
+
+Visualizo si las variables de interés tienen datos perdidos:
+
+```{r}
+summary(M19selec)
+sapply(M19selec, function(x) sum(is.na(x)))
+
+summary(M20selec)
+sapply(M20selec, function(x) sum(is.na(x)))
+
+summary(M21selec)
+sapply(M21selec, function(x) sum(is.na(x)))
+
+summary(M22selec)
+sapply(M22selec, function(x) sum(is.na(x)))
+
+summary(M23selec)
+sapply(M23selec, function(x) sum(is.na(x)))
+
+summary(M24selec)
+sapply(M24selec, function(x) sum(is.na(x)))
+
+```
+
+Para calcular el porcentaje de datos faltantes que tiene y que se los vamos a quitar:
+
+```{r}
+sum(is.na(M20selec[, 3])) / length(M20selec[, 3])
+```
+
+## Para quitar los NA's
+
+```{r}
+M20selec <- na.omit(M20selec)
+summary(M20selec)
+```
