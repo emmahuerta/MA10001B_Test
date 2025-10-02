@@ -14,29 +14,13 @@ format:
 execute:
   echo: false          # Show code in the output document
 ---
-##Revisión bibliográfica.
-Resume brevemente el trabajo realizado en la PARTE I (puntos 1, 3 y 4).
-Debe tener al menos cuatro citas de referencias confiables sobre el tema.
-No debe ser menor a 2 páginas y no mayor a 3.
-
-##Objetivo de Investigación.
-Describe el problema específico que abordarán (preguntas de investigación u objetivo del proyecto)
-Justifica tu pregunta de indagación en términos de por qué es importante indagar en estos temas en términos del impacto social que puede tener. Debes retomar la PARTE I para concretar la importancia de tu pregunta dentro de la problemática general del reto
-Debe tener 2 páginas.
-
-##Descripción de los datos.
-Haz una breve descripción de las bases de datos proporcionadas (punto 3 de la Parte 2)
-Elabora una breve resumen de las variables seleccionadas y su justificación (punto 5 de la Parte 2)
-Debe tener entre 2 y 3 páginas
-
 
 
 ## **Revisión bibliográfica**
 
-<<<<<<< HEAD
 **Contexto y problemática general**
 
-Este proyecto se enfoca en el análisis de los hábitos de lectura en México a partir de los datos presentados por el Módulo de Lectura (MOLEC) que fue implementado por el INE desde 2015. Como fue señalado por Salazar Embarcadero (2013) en el texto “Leer o no leer”, existe en México una gran problemática: si bien se reconoce la importancia de la lectura tanto para el desarrollo personal como académico, existen aún muchas barreras que limitan la lectura en la población mexicana. 
+Este proyecto se enfoca en el análisis de los hábitos de lectura en México a partir de los datos presentados por el Módulo de Lectura (MOLEC) que fue implementado por el INE desde 2015. Como fue señalado por Salazar Embarcadero (2013) en el texto “Leer o no leer”, existe en México una gran problemática: si bien se reconoce la importancia de la lectura tanto para el desarrollo personal como académico, existen aún muchas barreras que limitan la lectura en la población mexicana.
 
 El contexto educativo 	mexicano se enfrenta con otro reto, que es, de acuerdo con García y Zepeda (2018) que la lectura y el fomento de esta a un público joven que se encontraron con un sistema educativo que no estaba preparado para adaptarse a cambios en necesidades generacionales. Este contexto se ve agravado por el contexto social, especialmente familiar, donde se priorizan las nuevas tecnologías y el internet y es poco favorable a la lectura.\
 
@@ -54,7 +38,7 @@ Finalmente, analizamos cómo ha evolucionado la relación entre la accesibilidad
 
 Esta investigación es de alta importancia ya que su potencial se centra en la transformación de las estrategias de incentivación de la lectura a través de un enfoque estadístico, basado en datos concretos. Nuestro trabajo espera contribuir de manera específica a la propuesta de políticas gubernamentales eficientes, enfatizando en la identificación de cómo variables como el nivel educativo y la vivienda pueden influir en los hábitos de lectura y cómo esto permitirá diseñar cambios contextualizados.	
 
-Además, al determinar cuales son los elementos motivacionales que muestran mayor efectividad para sostener los hábitos de lectura, instituciones gubernamentales podrán enfocar sus recursos en campañas que enfaticen las motivaciones más eficientes. 
+Además, al determinar cuales son los elementos motivacionales que muestran mayor efectividad para sostener los hábitos de lectura, instituciones gubernamentales podrán enfocar sus recursos en campañas que enfaticen las motivaciones más eficientes.
 
 Ahora bien, para abordar nuestras preguntas de investigación, el análisis va a estar centrado en variables clave del MOLEC incluyendo las variables sociodemográficas mencionadas, los hábitos de lectura, factores motivacionales y su evolución a través de los años, permitiendo identificar las tendencias y cambios en los hábitos de lectura de los mexicanos, especialmente durante y después de la pandemia.
 
@@ -141,7 +125,7 @@ Para ofrecer una respuesta multifacética a la pregunta de investigación, se se
 | edad                   | Cuantitativa         | **Edad del informante.** Variable de control sociodemográfico. La segmentación por edad es esencial, ya que las generaciones más jóvenes y las de mayor edad tuvieron experiencias de confinamiento y adaptaciones digitales muy distintas, influenciando de forma desigual sus patrones de lectura.                                       |
 +------------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-##  Fuentes bibliográficas y de datos 
+##  **Fuentes bibliográficas y de datos**
 
 Camacho-Quiroz, R. M.,  (2013). La lectura en México, un problema multifactorial. Contribuciones desde Coatepec,  (25), 153-156. <https://www.redalyc.org/comocitar.oa?id=28128741003>
 
@@ -165,9 +149,8 @@ Link Github: <https://github.com/emmahuerta/MA10001B_Test>
 
 ## Exploración de la base de datos
 
-=======
->>>>>>> 2b54964da57067d1919912d07e558efdbbad4f35
 ```{r}
+#| echo: false
 library(tidyverse)
 library(here)
 
@@ -177,11 +160,6 @@ M21 <- read_csv(here("data", "Datos_molec_2021.csv"))
 M22 <- read_csv(here("data", "Datos_molec_2022.csv"))
 M23 <- read_csv(here("data", "Datos_molec_2023.csv"))
 M24 <- read_csv(here("data", "Datos_molec_2024.csv"))
-<<<<<<< HEAD
-=======
-
-str(M19)
->>>>>>> 2b54964da57067d1919912d07e558efdbbad4f35
 ```
 
 Todas las bases de datos tienen 108 columnas que corresponden a las variables, mientras que cada una tiene diferentes filas dependiendo del número de personas que realizaron la encuesta. Para el año 2019 tenemos 1980 entradas, para 2020 tenemos 2010, para 2021 tenemos 1948, en 2022 tenemos 2016 filas, en 2023 tenemos 1996, y finalmente para 2024 tenemos 2016 entradas. La mayoría de las variables son cualitativas, pero están insertas como números. Se tiene que revisar en el contexto del problema cuáles son realmente numéricas.
@@ -189,6 +167,7 @@ Todas las bases de datos tienen 108 columnas que corresponden a las variables, m
 ## Diccionarios
 
 ```{r}
+#| echo: false
 Dicc19 <- read_csv(here("data", "Diccionario_molec_2019-1.csv"))
 Dicc20 <- read_csv(here("data", "Diccionario_molec_2020-1.csv"))
 Dicc21 <- read_csv(here("data", "Diccionario_molec_2021-1.csv"))
@@ -202,6 +181,7 @@ El diccionario indica qué significan las variables en el contexto del problema,
 ## Resumen de las variables
 
 ```{r}
+#| echo: false
 str(M19)
 summary(M19)
 
@@ -226,6 +206,7 @@ Aunque en la mayor parte de las variables, las medidas calculadas (media, median
 ## Selección de las variables
 
 ```{r}
+#| echo: false
 M19selec <- M19[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
 M20selec <- M20[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
 M21selec <- M21[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
@@ -239,6 +220,7 @@ M24selec <- M24[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
 Visualizo si las variables de interés tienen datos perdidos:
 
 ```{r}
+#| echo: false
 summary(M19selec)
 sapply(M19selec, function(x) sum(is.na(x)))
 
@@ -259,32 +241,5 @@ sapply(M24selec, function(x) sum(is.na(x)))
 
 ```
 
-<<<<<<< HEAD
+
 Como ninguna de nuestras variables tiene datos faltantes no es necesario eliminar nada.
-=======
-La variable anio tiene 39 datos faltantes. Anio está en la columna 10 en la base de datos de las variables de interés.
-
-Para calcular el porcentaje de datos faltantes que tiene y que se los vamos a quitar: 
-
-```{r}
-sum(is.na(M20selec[, 10])) / length(M20selec[, 10])
-```
-
-## Para quitar los NA's
-
-```{r}
-M20selec <- na.omit(M20selec)
-summary(M20selec)
-```
-
-##Fuentes bibliográficas y de datos
-Contendrá al menos 4 referencias confiables
-Por lo menos habrá 2 referencias a libros o artículos
-Incluye la fuente de los datos: página de MOLEC
-Incluye la liga a tu código de R, que estará disponible en un espacio de web.
-
-
-
-
-
->>>>>>> 2b54964da57067d1919912d07e558efdbbad4f35
