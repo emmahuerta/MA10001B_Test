@@ -248,6 +248,7 @@ Como ninguna de nuestras variables tiene datos faltantes no es necesario elimina
 
 
 ```{r}
+
 write.csv(M19selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
 write.csv(M20selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M20.csv")
 write.csv(M21selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M21.csv")
