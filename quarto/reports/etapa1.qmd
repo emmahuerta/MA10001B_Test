@@ -240,6 +240,19 @@ summary(M24selec)
 sapply(M24selec, function(x) sum(is.na(x)))
 
 ```
-
-
 Como ninguna de nuestras variables tiene datos faltantes no es necesario eliminar nada.
+
+
+## Datos perdidos o faltantes
+
+
+
+```{r}
+write.csv(M19selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
+write.csv(M20selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M20.csv")
+write.csv(M21selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M21.csv")
+write.csv(M22selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M22.csv")
+write.csv(M23selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M23.csv")
+write.csv(M24selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M24.csv")
+
+```
