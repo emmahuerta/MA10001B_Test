@@ -168,6 +168,7 @@ Todas las bases de datos tienen 108 columnas que corresponden a las variables, m
 
 ```{r}
 #| echo: false
+#| output: false
 Dicc19 <- read_csv(here("data", "Diccionario_molec_2019-1.csv"))
 Dicc20 <- read_csv(here("data", "Diccionario_molec_2020-1.csv"))
 Dicc21 <- read_csv(here("data", "Diccionario_molec_2021-1.csv"))
@@ -248,7 +249,6 @@ Como ninguna de nuestras variables tiene datos faltantes no es necesario elimina
 
 
 ```{r}
-
 write.csv(M19selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
 write.csv(M20selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M20.csv")
 write.csv(M21selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M21.csv")

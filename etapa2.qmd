@@ -1,26 +1,133 @@
 ---
-title: "etapa2"
-format: html
-editor: visual
+title: "Etapa 2. Comprensión y preparación de datos"
+author: "Abraham Vicente González A01199401, Maria Alejandra Peiro Loera A00841878, Emma Huerta Villafuerten A01723584, Sebastian Aleman Cervantes A00841034, Natalia Ixchel Reynoso Ramírez A01352603"
+date: today
+format:
+  docx:
+    toc: false          # Do not include table of contents
+
+execute:
+  echo: false          # Show code in the output document
 ---
 
-## Quarto
+## Exploración de datos 
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+### **Calcula medidas estadísticas**
 
-## Running Code
+**Variables cuantitativas:**
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+-   Medidas de tendencia central: media, mediana y rango medio.
+
+-   Medidas de dispersión: desviación estándar, coeficiente de variación.
+
+-   Medidas de posición: cuartiles
+
+-   Medidas de forma: sesgo, curtosis
+
+**Variables cualitativas**
+
+-   Tabla de distribución de frecuencia
+
+-    Para escala ordinal: Mediana
 
 ```{r}
-1 + 1
+
 ```
 
-You can add options to executable code like this
+\\
+
+### **Explora los datos usando herramientas de visualización**
+
+## Lectura de los datos
 
 ```{r}
-#| echo: false
-2 * 2
+M19 = read.csv("data/M19.csv")
+M20 = read.csv("data/M20.csv")
+M21 = read.csv("data/M21.csv")
+M22 = read.csv("data/M22.csv")
+M23 = read.csv("data/M23.csv")
+M24 = read.csv("data/M24.csv")
+
+Dicc19 = read.csv("data/Diccionario_molec_2019-1.csv")
+Dicc20 = read.csv("data/Diccionario_molec_2020-1.csv")
+Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
+Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
+Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
+Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+**Variables cuantitativas:**
+
+-   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
+
+-   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
+
+-   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
+
+### Medidas
+
+Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
+
+```{r}
+library(e1071)
+
+d19 = c(as.numeric(summary(M19[,17])),
+        (max(M19[ ,17])-min(M19[ ,17]))/2,
+        sd(M19[ ,17]),
+        mean(M19[ ,17])/sd(M19[ ,17]),
+        skewness(M19[ ,17]),
+        kurtosis(M19[ ,17]))
+d20 = c(as.numeric(summary(M20[,22])),
+        (max(M20[ ,22])-min(M20[ ,22]))/2,
+        sd(M20[ ,22]),
+        mean(M20[ ,22])/sd(M20[ ,22]),y
+        skewness(M20[ ,22]),
+        kurtosis(M20[ ,22]))
+d21 = c(as.numeric(summary(M21[,22])),
+        (max(M21[ ,22])-min(M21[ ,22]))/2,
+        sd(M21[ ,22]),
+        mean(M21[ ,22])/sd(M21[ ,22]),
+        skewness(M21[ ,22]),
+        kurtosis(M21[ ,22]))
+d22 = c(as.numeric(summary(M22[,22])),
+        (max(M22[ ,22])-min(M22[ ,22]))/2,
+        sd(M22[ ,22]),
+        mean(M22[ ,22])/sd(M22[ ,22]),
+        skewness(M22[ ,22]),
+        kurtosis(M22[ ,22]))
+d23 = c(as.numeric(summary(M23[,22])),
+        (max(M23[ ,22])-min(M23[ ,22]))/2,
+        sd(M23[ ,22]),
+        mean(M23[ ,22])/sd(M23[ ,22]),
+        skewness(M23[ ,22]),
+        kurtosis(M23[ ,22]))
+d24 = c(as.numeric(summary(M24[,22])),
+        (max(M24[ ,22])-min(M24[ ,22]))/2,
+        sd(M24[ ,22]),
+        mean(M24[ ,22])/sd(M24[ ,22]),
+        skewness(M24[ ,22]),
+        kurtosis(M24[ ,22]))
+
+m = data.frame(d19, d20, d21, d22, d23, d24)
+names(m) = c("2019","2020","2021","2022","2023","2024")
+row.names(m) = c("Minimo","Q1","Mediana","Media","Q3","Máximo","Rango Medio", "Desv Est", "CV", "Sesgo", "Curtosis")
+round(m,2)
+```
+
+
+**Variables cualitativas**
+
+-   Distribución de los datos (diagramas de barras, diagramas de pastel)
+
+```{r}
+
+```
+
+## Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo
+
+1.  Calcula las medidas de las variables cuantitativas por categoría de alguna variable categórica de interés
+
+2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
+
+3.  Elabora gráficos comparativos por años si tu objetivo es comparar años

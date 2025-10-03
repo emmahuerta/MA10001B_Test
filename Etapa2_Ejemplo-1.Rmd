@@ -1,0 +1,343 @@
+---
+title: "Módulo de Lectura: Análisis Descriptivo"
+author: "Blanca Ruiz"
+date: "2024-09-09"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(printr)
+```
+
+En el siguiente documento se proporciona un ejemplo de cómo puede hacerse el análisis descriptivo de los datos. No se pondrá pregunta de investigación y se seleecionarán variables sin un objetivo particular, pero te servirá para poder adentrarte en la base y hacer el análisis descriptivo de tus variables de interés acordes con tu pregunta de investigación.
+
+Se ejemplificará con dos variables, una cuantitativa y otra cualitativa y con la evolución a través de los años.
+
+# Preparación de los datos
+
+## Lectura de los datos
+
+```{r}
+M19 = read.csv("Datos_molec_2019.csv")
+M20 = read.csv("Datos_molec_2020.csv")
+M21 = read.csv("Datos_molec_2021.csv")
+M22 = read.csv("Datos_molec_2022.csv")
+M23 = read.csv("Datos_molec_2023.csv")
+M24 = read.csv("Datos_molec_2024.csv")
+Dicc19 = read.csv("Diccionario_molec_2019.csv")
+Dicc20 = read.csv("Diccionario_molec_2020.csv")
+Dicc21 = read.csv("Diccionario_molec_2021.csv")
+Dicc22 = read.csv("Diccionario_molec_2022.csv")
+Dicc23 = read.csv("Diccionario_molec_2023.csv")
+Dicc24 = read.csv("Diccionario_molec_2024.csv")
+```
+
+## Variables de interés
+
+* **Año**: diferentes archivos de INEGI
+  * Variable cualitativa, toma los valores de 2019, 2020, 2021, 2022, 2023, 2024
+* **Pregunta 4**: ¿Cuántos libros leyó en los últimos doce meses?
+  * Para 2019:
+    * Nombre de la variable en la base de datos: p4
+    * Número de columna: 17
+  * Para 2000-2024:
+    * Nombre de la variable en la base de datos: p4
+    * Número de columna: 22
+  * Variable numérica, puede tomar valores de 0 a 99
+* **Pregunta 34c**: ¿Sus padres o tutores le leían?
+  * Nombre de la variable en la base de datos:34_3
+  * Número de columna: 92
+  * Variable cualitativa, puede tomar los valores:
+    * 1 = Sí
+    * 2 = No
+    * 3 = no lo recuerda
+    * 0 = blanco por pase u omisión.
+
+
+# El análisis descriptivo
+
+## Variable continua: ¿Cuántos libros leyó en los últimos doce meses?
+
+### Medidas
+
+Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
+
+```{r}
+library(e1071)
+
+d19 = c(as.numeric(summary(M19[,17])),
+        (max(M19[ ,17])-min(M19[ ,17]))/2,
+        sd(M19[ ,17]),
+        mean(M19[ ,17])/sd(M19[ ,17]),
+        skewness(M19[ ,17]),
+        kurtosis(M19[ ,17]))
+d20 = c(as.numeric(summary(M20[,22])),
+        (max(M20[ ,22])-min(M20[ ,22]))/2,
+        sd(M20[ ,22]),
+        mean(M20[ ,22])/sd(M20[ ,22]),
+        skewness(M20[ ,22]),
+        kurtosis(M20[ ,22]))
+d21 = c(as.numeric(summary(M21[,22])),
+        (max(M21[ ,22])-min(M21[ ,22]))/2,
+        sd(M21[ ,22]),
+        mean(M21[ ,22])/sd(M21[ ,22]),
+        skewness(M21[ ,22]),
+        kurtosis(M21[ ,22]))
+d22 = c(as.numeric(summary(M22[,22])),
+        (max(M22[ ,22])-min(M22[ ,22]))/2,
+        sd(M22[ ,22]),
+        mean(M22[ ,22])/sd(M22[ ,22]),
+        skewness(M22[ ,22]),
+        kurtosis(M22[ ,22]))
+d23 = c(as.numeric(summary(M23[,22])),
+        (max(M23[ ,22])-min(M23[ ,22]))/2,
+        sd(M23[ ,22]),
+        mean(M23[ ,22])/sd(M23[ ,22]),
+        skewness(M23[ ,22]),
+        kurtosis(M23[ ,22]))
+d24 = c(as.numeric(summary(M24[,22])),
+        (max(M24[ ,22])-min(M24[ ,22]))/2,
+        sd(M24[ ,22]),
+        mean(M24[ ,22])/sd(M24[ ,22]),
+        skewness(M24[ ,22]),
+        kurtosis(M24[ ,22]))
+
+m = data.frame(d19, d20, d21, d22, d23, d24)
+names(m) = c("2019","2020","2021","2022","2023","2024")
+row.names(m) = c("Minimo","Q1","Mediana","Media","Q3","Máximo","Rango Medio", "Desv Est", "CV", "Sesgo", "Curtosis")
+round(m,2)
+```
+
+
+### Gráficos
+
+**Gráfico de Caja y bigote**
+
+Para poder comparar fácilmente los años, se pone la misma escala en todos los gráficos: *ylim=c(0, 100)*. El número máximo de libros leídos en los 6 años fue de 99, el eje y se pone en escala de 0 a 100.
+
+```{r}
+colores = rainbow(6)
+par(mfrow=c(2,1), cex.lab=0.8, cex.main=0.8)
+boxplot(M19[,17],
+        col = colores[1],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2019",
+        ylim=c(0,100))
+boxplot(M20[,22],
+        col = colores[2],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2020",
+        ylim=c(0,100))
+boxplot(M21[,22],
+        col = colores[3],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2021",
+        ylim=c(0,100))
+boxplot(M22[,22],
+        col = colores[4],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2022",
+        ylim=c(0,100))
+boxplot(M23[,22],
+        col = colores[5],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2023",
+        ylim=c(0,100))
+boxplot(M24[,22],
+        col = colores[6],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2024",
+        ylim=c(0,100))
+```
+
+**Histograma**
+
+```{r}
+par(mfrow=c(1,2))
+hist(M19[,17], col = colores[1], main = "Libros leídos \n 2019", xlab="Número de libros")
+hist(M20[,22], col = colores[2], main = "Libros leídos \n 2020", xlab="Número de libros")
+hist(M21[,22], col = colores[3], main = "Libros leídos \n 2021", xlab="Número de libros")
+hist(M22[,22], col = colores[4], main = "Libros leídos \n 2022", xlab="Número de libros")
+hist(M23[,22], col = colores[5], main = "Libros leídos \n 2023", xlab="Número de libros")
+hist(M24[,22], col = colores[6], main = "Libros leídos \n 2024", xlab="Número de libros")
+```
+
+### Interpreta
+
+Describe:
+
+* Sesgo de la distribución de la variable
+* Datos atípicos
+* Comportamiento general de la población (centralización, variación, posición y forma)
+* Interpreta gráficos y medidas a la vez y relacionándolos entre sí
+
+## Variable discreta: ¿Sus padres o tutores le leían?
+
+### Medidas
+
+```{r}
+n19 = prop.table(table(M19$p34_3))
+n20 = prop.table(table(M20$p34_3))
+n21 = prop.table(table(M21$p34_3))
+n22 = prop.table(table(M22$p34_3))
+n23 = prop.table(table(M23$p34_3))
+n24 = prop.table(table(M24$p34_3))
+
+N = rbind(n19, n20, n21, n22, n23, n24)
+N = addmargins(N, 2, sum) # añade la columna de suma, 2 = por columna
+colnames(N) = c("blanco", "SI", "NO", "No recuerda", "Total")
+row.names(N) = c("2019","2020","2021","2022","2023","2024")
+round(N,3)
+```
+
+### Gráficos
+
+**De Pastel**
+
+```{r}
+etiquetas = c("Blanco", "Sí", "No", "No recuerda")
+colores = c("darkgreen", "darksalmon", "blanchedalmond", "darkred")
+par(mfrow=c(2,3))
+pie(n19, labels = etiquetas, main = "¿Sus padres le leían? \n 2019", col=colores)
+pie(n20, labels = etiquetas, main = "¿Sus padres le leían? \n 2020", col=colores)
+pie(n21, labels = etiquetas, main = "¿Sus padres le leían? \n 2021", col=colores)
+pie(n22, labels = etiquetas, main = "¿Sus padres le leían? \n 2022", col=colores)
+pie(n23, labels = etiquetas, main = "¿Sus padres le leían? \n 2023", col=colores)
+pie(n24, labels = etiquetas, main = "¿Sus padres le leían? \n 2024", col=colores)
+```
+
+**De líneas por año**
+
+```{r}
+x = 2019:2024
+plot(x, y=N[,2], type="o", col="limegreen", pch=16,
+     ylim=c(0,0.9), ylab="Proporción", xlab="Año",
+     main="¿Sus padres le leían?")
+lines(x, y=N[,3], type="o", col="red", pch=16)
+
+legend("topleft", legend=c("Sí", "No"), col=c("limegreen", "red"), lty=1, lwd=2, cex=0.8)
+```
+
+### Interpreta
+
+Describe:
+
+* Proporción en cada categoría
+* Cambio de la proporción en función del tiempo
+*  Interpreta gráficos y medidas a la vez y relacionándolos
+
+## Vinculación entre variable continua y discreta
+
+Relación entre la variable continua y la discreta
+
+### Medidas
+
+Medidas del número de libros (p4) por categoría de si le leyeron de niño (p34_3)
+
+**Media**
+
+```{r}
+medias = data.frame(tapply(M19$p4, M19$p34_3, mean),
+                     tapply(M20$p4, M20$p34_3, mean),
+                     tapply(M21$p4, M21$p34_3, mean),
+                     tapply(M22$p4, M22$p34_3, mean),
+                     tapply(M23$p4, M23$p34_3, mean),
+                     tapply(M24$p4, M24$p34_3, mean))
+names(medias) = c("2019","2020","2021","2022","2023","2024")
+row.names(medias) = etiquetas
+round(medias,2)
+```
+
+**Desviación Estándar**
+
+```{r}
+desvest = data.frame(tapply(M19$p4, M19$p34_3, sd),
+                     tapply(M20$p4, M20$p34_3, sd),
+                     tapply(M21$p4, M21$p34_3, sd),
+                     tapply(M22$p4, M22$p34_3, sd),
+                     tapply(M23$p4, M23$p34_3, sd),
+                     tapply(M24$p4, M24$p34_3, sd))
+names(desvest) = c("2019","2020","2021","2022","2023","2024")
+row.names(desvest) = etiquetas
+round(desvest,2)
+```
+
+
+**Máximo**
+
+```{r}
+maximo = data.frame(tapply(M19$p4, M19$p34_3, max),
+                     tapply(M20$p4, M20$p34_3, max),
+                     tapply(M21$p4, M21$p34_3, max),
+                     tapply(M22$p4, M22$p34_3, max),
+                     tapply(M23$p4, M23$p34_3, max),
+                     tapply(M24$p4, M24$p34_3, max))
+names(maximo) = c("2019","2020","2021","2022","2023","2024")
+row.names(maximo) = etiquetas
+round(maximo,2)
+```
+
+### Gráficos
+
+```{r}
+colores = palette("classic Tableau")
+
+par(mfrow=c(1,2), cex.lab=0.8, cex.main=0.8)
+
+boxplot(M19[,17]~M19[,92],
+        horizontal = TRUE,
+        col = colores,
+        main = "Libros leídos \n 2019",
+        xlab="Número de libros", ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+boxplot(M20[,22]~M20[,92],
+        horizontal = TRUE,
+        col = colores,
+        main = "Libros leídos \n 2020",
+        xlab="Número de libros", ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+boxplot(M21[,22]~M21[,92],
+        horizontal = TRUE,
+        col = colores,
+        main = "Libros leídos \n 2021",
+        xlab="Número de libros", ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+boxplot(M22[,22]~M22[,92],
+        horizontal = TRUE,
+        col = colores,
+        main = "Libros leídos \n 2022", xlab="Número de libros",
+        ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+boxplot(M23[,22]~M23[,93],
+        horizontal = TRUE,
+        col = colores,
+        main = "Libros leídos \n 2023",
+        xlab="Número de libros", ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+boxplot(M24[,22]~M24[,92],
+        horizontal = TRUE,
+        col = colores, main = "Libros leídos \n 2024",
+        xlab="Número de libros", ylab="Le leyeron de niño")
+legend("bottomright", legend=c("blanco", "Sí", "No", "No recuerda"),
+       fill=colores, cex=0.7)
+```
+
+### Interpreta
+
+Describe:
+
+* Aparentemente, ¿Hay diferencia entre el número  de libros leídos y si les leyeron de niños o lo recuerdan?
+* ¿Ha cambiado con los años el número de libros leído por categoría de si les leyeron de niños o lo recuerdan?
+* Cómo cambian las medias de acuerdo a cada categoría de si les leyeron de niños
+* Interpreta gráficos y medidas a la vez y relacionándolos
+
+ OJO: Instala la biblioteca *printr* para que las tablas se te impriman bonitas. En el primer *chunk* pon la instrucción: *library(printr)* para llamarla. Si usas *summary*, no te conviene usar esta función, se desconfigura la salida de *summary*.
+ 
+ 
