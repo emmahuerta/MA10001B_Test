@@ -56,6 +56,18 @@ Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
 Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
 Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
 Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
+
+M19$Año <- 2019
+M20$Año <- 2020
+M21$Año <- 2021
+M22$Año <- 2022
+M23$Año <- 2023
+M24$Año <- 2024
+
+base_completa <- rbind(M19, M20, M21, M22, M23, M24)
+
+head(base_completa)
+summary(base_completa)
 ```
 
 
@@ -133,3 +145,327 @@ round(m,2)
 2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
 
 3.  Elabora gráficos comparativos por años si tu objetivo es comparar años
+
+
+### **Calcula medidas estadísticas**
+
+**Variables cuantitativas:**
+
+-   Medidas de tendencia central: media, mediana y rango medio.
+
+-   Medidas de dispersión: desviación estándar, coeficiente de variación.
+
+-   Medidas de posición: cuartiles
+
+-   Medidas de forma: sesgo, curtosis
+
+```{r}
+libros_leidos <- M24$p4
+
+# --- Medidas de Tendencia Central ---
+media <- mean(libros_leidos)
+mediana <- median(libros_leidos)
+rango_medio <- (max(libros_leidos) + min(libros_leidos)) / 2
+
+# --- Medidas de Dispersión ---
+desv_est <- sd(libros_leidos)
+coef_variacion <- (desv_est / media) * 100 
+# --- Medidas de Posición (Cuartiles) ---
+resumen_cuantitativo <- summary(libros_leidos)
+# --- Medidas de Forma ---
+sesgo <- skewness(libros_leidos)
+curtosis <- kurtosis(libros_leidos)
+
+
+cat("--- MEDIDAS PARA LA VARIABLE 'p4' (Libros Leídos) ---\n\n")
+cat("Tendencia Central:\n")
+cat("  Media:", round(media, 2), "\n")
+cat("  Mediana:", round(mediana, 2), "\n")
+cat("  Rango Medio:", round(rango_medio, 2), "\n\n")
+
+cat("Dispersión:\n")
+cat("  Desviación Estándar:", round(desv_est, 2), "\n")
+cat("  Coeficiente de Variación:", round(coef_variacion, 2), "%\n\n")
+
+cat("Posición (Resumen de 5 números):\n")
+print(resumen_cuantitativo)
+cat("\n")
+
+cat("Forma:\n")
+cat("  Sesgo (Skewness):", round(sesgo, 2), "\n")
+cat("  Curtosis (Kurtosis):", round(curtosis, 2), "\n")
+
+```
+
+**Variables cualitativas**
+
+-   Tabla de distribución de frecuencia
+
+-   Para escala ordinal: Mediana
+
+```{r}
+formato_libro <- M24$p8_1
+
+frecuencia_abs <- table(formato_libro)
+
+frecuencia_rel <- prop.table(frecuencia_abs)
+
+# --- Imprimir resultados ---
+cat("--- TABLA DE FRECUENCIA PARA 'p8_1' (Formato del Libro) ---\n\n")
+cat("Frecuencia Absoluta (Conteo):\n")
+print(frecuencia_abs)
+cat("\n")
+
+cat("Frecuencia Relativa (Proporción):\n")
+print(round(frecuencia_rel, 3))
+```
+
+\\
+
+### **Explora los datos usando herramientas de visualización**
+
+## Lectura de los datos
+
+```{r}
+M19 = read.csv("data/M19.csv")
+M20 = read.csv("data/M20.csv")
+M21 = read.csv("data/M21.csv")
+M22 = read.csv("data/M22.csv")
+M23 = read.csv("data/M23.csv")
+M24 = read.csv("data/M24.csv")
+
+Dicc19 = read.csv("data/Diccionario_molec_2019-1.csv")
+Dicc20 = read.csv("data/Diccionario_molec_2020-1.csv")
+Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
+Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
+Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
+Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
+
+M19$Año <- 2019
+M20$Año <- 2020
+M21$Año <- 2021
+M22$Año <- 2022
+M23$Año <- 2023
+M24$Año <- 2024
+
+base_completa <- rbind(M19, M20, M21, M22, M23, M24)
+
+head(base_completa)
+summary(base_completa)
+```
+
+**Variable cuantitativa:** ¿Cuántos libros leyó? (p4)
+
+-   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
+
+-   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
+
+-   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
+
+### Medidas (2019-2024)
+
+Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
+
+```{r}
+library(e1071)
+
+d19 = c(as.numeric(summary(M19$p4)), 
+        sd(M19$p4), 
+        skewness(M19$p4), 
+        kurtosis(M19$p4))
+d20 = c(as.numeric(summary(M20$p4)), 
+        sd(M20$p4), 
+        skewness(M20$p4), 
+        kurtosis(M20$p4))
+d21 = c(as.numeric(summary(M21$p4)), 
+        sd(M21$p4), 
+        skewness(M21$p4), 
+        kurtosis(M21$p4))
+d22 = c(as.numeric(summary(M22$p4)), 
+        sd(M22$p4), skewness(M22$p4), 
+        kurtosis(M22$p4))
+d23 = c(as.numeric(summary(M23$p4)), 
+        sd(M23$p4), 
+        skewness(M23$p4), 
+        kurtosis(M23$p4))
+d24 = c(as.numeric(summary(M24$p4)), 
+        sd(M24$p4), 
+        skewness(M24$p4), 
+        kurtosis(M24$p4))
+
+m = data.frame(d19, d20, d21, d22, d23, d24)
+names(m) = c("2019","2020","2021","2022","2023","2024")
+row.names(m) = c("Mínimo","Q1","Mediana","Media","Q3","Máximo", "Desv Est", "Sesgo", "Curtosis")
+round(m,2)
+```
+
+### Gráficos (2019-2024)
+
+**Gráfico de Caja y bigote**
+
+```{r}
+par(mfrow=c(2,3), cex.lab=0.8, cex.main=0.8) 
+colores = rainbow(6)
+
+boxplot(M19$p4,
+        col = colores[1],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2019",
+        ylim=c(0,100))
+
+boxplot(M20$p4,
+        col = colores[2],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2020",
+        ylim=c(0,100))
+
+boxplot(M21$p4,
+        col = colores[3],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2021",
+        ylim=c(0,100))
+
+boxplot(M22$p4,
+        col = colores[4],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2022",
+        ylim=c(0,100))
+
+boxplot(M23$p4,
+        col = colores[5],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2023",
+        ylim=c(0,100))
+
+boxplot(M24$p4,
+        col = colores[6],
+        horizontal = TRUE,
+        main = "Número de libros leídos \n 2024",
+        ylim=c(0,100))
+
+```
+
+**Histograma de Libros Leídos (2019-2024)**
+
+```{r}
+par(mfrow=c(2,3)) 
+colores = rainbow(6)
+
+hist(M19$p4, 
+     col = colores[1], 
+     main = "Libros leídos \n 2019", 
+     xlab="Número de libros")
+hist(M20$p4, 
+     col = colores[2], 
+     main = "Libros leídos \n 2020", 
+     xlab="Número de libros")
+hist(M21$p4, 
+     col = colores[3], 
+     main = "Libros leídos \n 2021", 
+     xlab="Número de libros")
+hist(M22$p4, 
+     col = colores[4], 
+     main = "Libros leídos \n 2022", 
+     xlab="Número de libros")
+hist(M23$p4, 
+     col = colores[5], 
+     main = "Libros leídos \n 2023", 
+     xlab="Número de libros")
+hist(M24$p4, 
+     col = colores[6], 
+     main = "Libros leídos \n 2024", 
+     xlab="Número de libros")
+```
+
+## **Variable cualitativa:** ¿El libro leído era digital? (`p8_1`)
+
+### Medidas (2019-2024)
+
+```{r}
+n19 = prop.table(table(M19$p8_1))
+n20 = prop.table(table(M20$p8_1))
+n21 = prop.table(table(M21$p8_1))
+n22 = prop.table(table(M22$p8_1))
+n23 = prop.table(table(M23$p8_1))
+n24 = prop.table(table(M24$p8_1))
+
+N = rbind(n19, n20, n21, n22, n23, n24)
+N = addmargins(N, 2, sum)
+
+colnames(N) = c("No Aplica", "Digital", "Impreso", "Total")
+
+row.names(N) = c("2019", "2020", "2021", "2022", "2023", "2024")
+round(N, 3)
+```
+
+### Gráficos
+
+**Gráfico de Pastel por Formato de Libro (2019-2024)**
+
+```{r}
+etiquetas = c("Digital", "Impreso")
+colores = c("cornflowerblue", "lightgoldenrodyellow")
+par(mfrow=c(2,3))
+pie(n19, labels = etiquetas, main = "Formato del libro \n 2019", col=colores)
+pie(n20, labels = etiquetas, main = "Formato del libro \n 2020", col=colores)
+pie(n21, labels = etiquetas, main = "Formato del libro \n 2021", col=colores)
+pie(n22, labels = etiquetas, main = "Formato del libro \n 2022", col=colores)
+pie(n23, labels = etiquetas, main = "Formato del libro \n 2023", col=colores)
+pie(n24, labels = etiquetas, main = "Formato del libro \n 2024", col=colores)
+```
+
+**Gráfico de Líneas por Año** (2019-2024)
+
+```{r}
+x = 2019:2024
+plot(x, y=N[,1], type="o", col="blue", pch=16,
+     ylim=c(0,0.5), ylab="Proporción", xlab="Año",
+     main="Evolución del formato de lectura (2019-2024)")
+lines(x, y=N[,2], type="o", col="orange", pch=16)
+
+legend("topleft", legend=c("Digital", "Impreso"), col=c("blue", "orange"), lty=1, lwd=2, cex=0.8)
+```
+
+## **Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo**
+
+Distribución de los datos (diagramas de barras, diagramas de pastel)
+
+1.  Calcula las medidas de las variables cuantitativas por categoría de alguna variable categórica de interés
+
+2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
+
+3.  Elabora gráficos comparativos por años si tu objetivo es comparar años
+
+**Medidas: Media de libros leídos por formato**
+
+```{r}
+etiquetas = c("No Aplica", "Digital", "Impreso") 
+
+medias = data.frame(tapply(M19$p4, M19$p8_1, mean),
+                     tapply(M20$p4, M20$p8_1, mean),
+                     tapply(M21$p4, M21$p8_1, mean),
+                     tapply(M22$p4, M22$p8_1, mean),
+                     tapply(M23$p4, M23$p8_1, mean),
+                     tapply(M24$p4, M24$p8_1, mean))
+
+names(medias) = c("2019", "2020", "2021", "2022", "2023", "2024")
+
+row.names(medias) = etiquetas
+round(medias, 2)
+
+```
+
+**Gráficos: Boxplots por formato (2019-2024)**
+
+```{r}
+colores = c("cornflowerblue", "lightgoldenrodyellow")
+par(mfrow=c(2,3), cex.lab=0.8, cex.main=0.8)
+
+boxplot(M19$p4 ~ M19$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2019", xlab="Nº de libros", ylab="Formato")
+boxplot(M20$p4 ~ M20$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2020", xlab="Nº de libros", ylab="Formato")
+boxplot(M21$p4 ~ M21$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2021", xlab="Nº de libros", ylab="Formato")
+boxplot(M22$p4 ~ M22$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2022", xlab="Nº de libros", ylab="Formato")
+boxplot(M23$p4 ~ M23$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2023", xlab="Nº de libros", ylab="Formato")
+boxplot(M24$p4 ~ M24$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2024", xlab="Nº de libros", ylab="Formato")
+```
+
