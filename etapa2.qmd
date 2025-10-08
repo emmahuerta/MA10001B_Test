@@ -56,6 +56,18 @@ Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
 Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
 Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
 Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
+
+M19$Año <- 2019
+M20$Año <- 2020
+M21$Año <- 2021
+M22$Año <- 2022
+M23$Año <- 2023
+M24$Año <- 2024
+
+base_completa <- rbind(M19, M20, M21, M22, M23, M24)
+
+head(base_completa)
+summary(base_completa)
 ```
 
 
