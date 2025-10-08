@@ -10,6 +10,8 @@ execute:
   echo: false          # Show code in the output document
 ---
 
+prueba
+
 ## Exploración de datos 
 
 ### **Calcula medidas estadísticas**
