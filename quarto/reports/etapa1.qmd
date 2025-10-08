@@ -249,11 +249,28 @@ Como ninguna de nuestras variables tiene datos faltantes no es necesario elimina
 
 
 ```{r}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+>>>>>>> b2b9e0fa3ea44c634b6a88b1584b4432758d1643
+>>>>>>> e7b2e994c08cf2aab83d90a7b038605d411c4e8e
 write.csv(M19selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
 write.csv(M20selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M20.csv")
 write.csv(M21selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M21.csv")
 write.csv(M22selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M22.csv")
 write.csv(M23selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M23.csv")
 write.csv(M24selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M24.csv")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+write.csv(M19selec, file = "C:/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
+>>>>>>> 43b48f658cc1b7da9676caa3b247bd53a9bf1fb4
+>>>>>>> b2b9e0fa3ea44c634b6a88b1584b4432758d1643
+>>>>>>> e7b2e994c08cf2aab83d90a7b038605d411c4e8e
 
 ```
