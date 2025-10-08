@@ -10,8 +10,6 @@ execute:
   echo: false          # Show code in the output document
 ---
 
-prueba
-
 ## Exploración de datos 
 
 ### **Calcula medidas estadísticas**
@@ -82,52 +80,6 @@ summary(base_completa)
 ### Medidas
 
 Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
-
-```{r}
-library(e1071)
-
-d19 = c(as.numeric(summary(M19[,17])),
-        (max(M19[ ,17])-min(M19[ ,17]))/2,
-        sd(M19[ ,17]),
-        mean(M19[ ,17])/sd(M19[ ,17]),
-        skewness(M19[ ,17]),
-        kurtosis(M19[ ,17]))
-d20 = c(as.numeric(summary(M20[,22])),
-        (max(M20[ ,22])-min(M20[ ,22]))/2,
-        sd(M20[ ,22]),
-        mean(M20[ ,22])/sd(M20[ ,22]),y
-        skewness(M20[ ,22]),
-        kurtosis(M20[ ,22]))
-d21 = c(as.numeric(summary(M21[,22])),
-        (max(M21[ ,22])-min(M21[ ,22]))/2,
-        sd(M21[ ,22]),
-        mean(M21[ ,22])/sd(M21[ ,22]),
-        skewness(M21[ ,22]),
-        kurtosis(M21[ ,22]))
-d22 = c(as.numeric(summary(M22[,22])),
-        (max(M22[ ,22])-min(M22[ ,22]))/2,
-        sd(M22[ ,22]),
-        mean(M22[ ,22])/sd(M22[ ,22]),
-        skewness(M22[ ,22]),
-        kurtosis(M22[ ,22]))
-d23 = c(as.numeric(summary(M23[,22])),
-        (max(M23[ ,22])-min(M23[ ,22]))/2,
-        sd(M23[ ,22]),
-        mean(M23[ ,22])/sd(M23[ ,22]),
-        skewness(M23[ ,22]),
-        kurtosis(M23[ ,22]))
-d24 = c(as.numeric(summary(M24[,22])),
-        (max(M24[ ,22])-min(M24[ ,22]))/2,
-        sd(M24[ ,22]),
-        mean(M24[ ,22])/sd(M24[ ,22]),
-        skewness(M24[ ,22]),
-        kurtosis(M24[ ,22]))
-
-m = data.frame(d19, d20, d21, d22, d23, d24)
-names(m) = c("2019","2020","2021","2022","2023","2024")
-row.names(m) = c("Minimo","Q1","Mediana","Media","Q3","Máximo","Rango Medio", "Desv Est", "CV", "Sesgo", "Curtosis")
-round(m,2)
-```
 
 
 **Variables cualitativas**
