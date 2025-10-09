@@ -4,37 +4,12 @@ author: "Abraham Vicente González A01199401, Maria Alejandra Peiro Loera A00841
 date: today
 format:
   docx:
-    toc: false          # Do not include table of contents
-
+    toc: false
 execute:
-  echo: false          # Show code in the output document
+  echo: false       # hide all code
+  warning: false    # optional: hide warnings
+  message: false    # optional: hide messages
 ---
-
-## Exploración de datos 
-
-### **Calcula medidas estadísticas**
-
-**Variables cuantitativas:**
-
--   Medidas de tendencia central: media, mediana y rango medio.
-
--   Medidas de dispersión: desviación estándar, coeficiente de variación.
-
--   Medidas de posición: cuartiles
-
--   Medidas de forma: sesgo, curtosis
-
-**Variables cualitativas**
-
--   Tabla de distribución de frecuencia
-
--    Para escala ordinal: Mediana
-
-```{r}
-
-```
-
-\\
 
 ### **Explora los datos usando herramientas de visualización**
 
@@ -68,39 +43,6 @@ head(base_completa)
 summary(base_completa)
 ```
 
-
-**Variables cuantitativas:**
-
--   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
-
--   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
-
--   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
-
-### Medidas
-
-Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
-
-
-**Variables cualitativas**
-
--   Distribución de los datos (diagramas de barras, diagramas de pastel)
-
-```{r}
-
-```
-
-## Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo
-
-1.  Calcula las medidas de las variables cuantitativas por categoría de alguna variable categórica de interés
-
-2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
-
-3.  Elabora gráficos comparativos por años si tu objetivo es comparar años
-
-
-### **Calcula medidas estadísticas**
-
 **Variables cuantitativas:**
 
 -   Medidas de tendencia central: media, mediana y rango medio.
@@ -111,43 +53,101 @@ Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, i
 
 -   Medidas de forma: sesgo, curtosis
 
+
 ```{r}
-libros_leidos <- M24$p4
 
-# --- Medidas de Tendencia Central ---
-media <- mean(libros_leidos)
-mediana <- median(libros_leidos)
-rango_medio <- (max(libros_leidos) + min(libros_leidos)) / 2
+library(dplyr)
+library(e1071)
+library(knitr)
 
-# --- Medidas de Dispersión ---
-desv_est <- sd(libros_leidos)
-coef_variacion <- (desv_est / media) * 100 
-# --- Medidas de Posición (Cuartiles) ---
-resumen_cuantitativo <- summary(libros_leidos)
-# --- Medidas de Forma ---
-sesgo <- skewness(libros_leidos)
-curtosis <- kurtosis(libros_leidos)
+#Tabla p4
+resumen_p4 <- base_completa %>%
+  group_by(Año) %>%
+  summarise(
+    Minimo = min(p4),
+    Maximo = max(p4),
+    Media = round(mean(p4),2),
+    Mediana = round(median(p4),2),
+    Rango_Medio = round((Maximo + Minimo)/2,2),
+    Desv_Estandar = round(sd(p4),2),
+    Coef_Variacion = round(sd(p4)/mean(p4)*100,2),
+    Q1 = quantile(p4,0.25),
+    Q3 = quantile(p4,0.75),
+    Sesgo = round(skewness(p4),2),
+    Curtosis = round(kurtosis(p4),2)
+  )
+kable(resumen_p4, caption = "Número de libros leídos por año")
 
+# Tabla p26
+resumen_p26 <- base_completa %>%
+  group_by(Año) %>%
+  summarise(
+    Minimo = min(p26),
+    Maximo = max(p26),
+    Media = round(mean(p26),2),
+    Mediana = round(median(p26),2),
+    Rango_Medio = round((Maximo + Minimo)/2,2),
+    Desv_Estandar = round(sd(p26),2),
+    Coef_Variacion = round(sd(p26)/mean(p26)*100,2),
+    Q1 = quantile(p26,0.25),
+    Q3 = quantile(p26,0.75),
+    Sesgo = round(skewness(p26),2),
+    Curtosis = round(kurtosis(p26),2)
+  )
 
-cat("--- MEDIDAS PARA LA VARIABLE 'p4' (Libros Leídos) ---\n\n")
-cat("Tendencia Central:\n")
-cat("  Media:", round(media, 2), "\n")
-cat("  Mediana:", round(mediana, 2), "\n")
-cat("  Rango Medio:", round(rango_medio, 2), "\n\n")
+kable(resumen_p26, caption = "Minutos continuos dedicados a la lectura por año")
 
-cat("Dispersión:\n")
-cat("  Desviación Estándar:", round(desv_est, 2), "\n")
-cat("  Coeficiente de Variación:", round(coef_variacion, 2), "%\n\n")
-
-cat("Posición (Resumen de 5 números):\n")
-print(resumen_cuantitativo)
-cat("\n")
-
-cat("Forma:\n")
-cat("  Sesgo (Skewness):", round(sesgo, 2), "\n")
-cat("  Curtosis (Kurtosis):", round(curtosis, 2), "\n")
 
 ```
+
+-   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
+
+-   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
+
+-   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(e1071)
+library(knitr)
+
+nombres_variables <- c("p4" = "Número de libros leídos", 
+                       "p26" = "Minutos continuos dedicados a la lectura")
+
+variables <- names(nombres_variables)
+
+#Boxplots
+for(var in variables) {
+  ggplot(base_completa, aes(x = factor(Año), y = .data[[var]])) +
+    geom_boxplot(outlier.colour = "red", outlier.shape = 16) +
+    labs(title = paste("Boxplot de", nombres_variables[var], "por Año"),
+         x = "Año",
+         y = nombres_variables[var]) +
+    theme_minimal() -> p
+  print(p)
+}
+
+# Histogramas
+for(var in variables) {
+  ggplot(base_completa, aes(x = .data[[var]])) +
+    geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+    facet_wrap(~Año, scales = "free_y") +
+    labs(title = paste("Histograma de", nombres_variables[var], "por Año"),
+         x = nombres_variables[var],
+         y = "Frecuencia") +
+    theme_minimal() -> h
+  print(h)
+}
+
+# Correlación global entre p4 y p26
+cor_global <- cor(base_completa$p4, base_completa$p26)
+cat("Correlación global entre Número de libros leídos y Minutos continuos dedicados a la lectura:", 
+    round(cor_global,2), "\n\n")
+
+
+```
+
 
 **Variables cualitativas**
 
@@ -174,39 +174,8 @@ print(round(frecuencia_rel, 3))
 
 \\
 
-### **Explora los datos usando herramientas de visualización**
 
-## Lectura de los datos
-
-```{r}
-M19 = read.csv("data/M19.csv")
-M20 = read.csv("data/M20.csv")
-M21 = read.csv("data/M21.csv")
-M22 = read.csv("data/M22.csv")
-M23 = read.csv("data/M23.csv")
-M24 = read.csv("data/M24.csv")
-
-Dicc19 = read.csv("data/Diccionario_molec_2019-1.csv")
-Dicc20 = read.csv("data/Diccionario_molec_2020-1.csv")
-Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
-Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
-Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
-Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
-
-M19$Año <- 2019
-M20$Año <- 2020
-M21$Año <- 2021
-M22$Año <- 2022
-M23$Año <- 2023
-M24$Año <- 2024
-
-base_completa <- rbind(M19, M20, M21, M22, M23, M24)
-
-head(base_completa)
-summary(base_completa)
-```
-
-**Variable cuantitativa:** ¿Cuántos libros leyó? (p4)
+## **Variable cuantitativa:** ¿Cuántos libros leyó? (p4)
 
 -   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
 
@@ -249,6 +218,35 @@ m = data.frame(d19, d20, d21, d22, d23, d24)
 names(m) = c("2019","2020","2021","2022","2023","2024")
 row.names(m) = c("Mínimo","Q1","Mediana","Media","Q3","Máximo", "Desv Est", "Sesgo", "Curtosis")
 round(m,2)
+
+d19.2 = c(as.numeric(summary(M19$p26)), 
+        sd(M19$p26), 
+        skewness(M19$p26), 
+        kurtosis(M19$p26))
+d20.2 = c(as.numeric(summary(M20$p26)), 
+        sd(M20$p26), 
+        skewness(M20$p26), 
+        kurtosis(M20$p26))
+d21.2 = c(as.numeric(summary(M21$p26)), 
+        sd(M21$p26), 
+        skewness(M21$p26), 
+        kurtosis(M21$p26))
+d22.2 = c(as.numeric(summary(M22$p26)), 
+        sd(M22$p26), skewness(M22$p26), 
+        kurtosis(M22$p26))
+d23.2 = c(as.numeric(summary(M23$p26)), 
+        sd(M23$p26), 
+        skewness(M23$p26), 
+        kurtosis(M23$p26))
+d24.2 = c(as.numeric(summary(M24$p26)), 
+        sd(M24$p26), 
+        skewness(M24$p26), 
+        kurtosis(M24$p26))
+
+m.2 = data.frame(d19.2, d20.2, d21.2, d22.2, d23.2, d24.2)
+names(m.2) = c("2019","2020","2021","2022","2023","2024")
+row.names(m.2) = c("Mínimo","Q1","Mediana","Media","Q3","Máximo", "Desv Est", "Sesgo", "Curtosis")
+round(m.2,2)
 ```
 
 ### Gráficos (2019-2024)
@@ -328,6 +326,131 @@ hist(M24$p4,
      main = "Libros leídos \n 2024", 
      xlab="Número de libros")
 ```
+
+## **Variable cuantitativa:** **Minutos continuos dedicados a la lectura** (p26)
+
+-   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
+
+-   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
+
+-   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
+
+### Medidas (2019-2024)
+
+Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
+
+```{r}
+library(e1071)
+
+d19.2 = c(as.numeric(summary(M19$p26)), 
+        sd(M19$p26), 
+        skewness(M19$p26), 
+        kurtosis(M19$p26))
+d20.2 = c(as.numeric(summary(M20$p26)), 
+        sd(M20$p26), 
+        skewness(M20$p26), 
+        kurtosis(M20$p26))
+d21.2 = c(as.numeric(summary(M21$p26)), 
+        sd(M21$p26), 
+        skewness(M21$p26), 
+        kurtosis(M21$p26))
+d22.2 = c(as.numeric(summary(M22$p26)), 
+        sd(M22$p26), skewness(M22$p26), 
+        kurtosis(M22$p26))
+d23.2 = c(as.numeric(summary(M23$p26)), 
+        sd(M23$p26), 
+        skewness(M23$p26), 
+        kurtosis(M23$p26))
+d24.2 = c(as.numeric(summary(M24$p26)), 
+        sd(M24$p26), 
+        skewness(M24$p26), 
+        kurtosis(M24$p26))
+
+m.2 = data.frame(d19.2, d20.2, d21.2, d22.2, d23.2, d24.2)
+names(m.2) = c("2019","2020","2021","2022","2023","2024")
+row.names(m.2) = c("Mínimo","Q1","Mediana","Media","Q3","Máximo", "Desv Est", "Sesgo", "Curtosis")
+round(m.2,2)
+```
+
+### Gráficos (2019-2024)
+
+**Gráfico de Caja y bigote**
+
+```{r}
+par(mfrow=c(2,3), cex.lab=0.8, cex.main=0.8) 
+colores = rainbow(6)
+
+boxplot(M19$p26,
+        col = colores[1],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2019",
+        ylim=c(0,100))
+
+boxplot(M20$p26,
+        col = colores[2],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2020",
+        ylim=c(0,100))
+
+boxplot(M21$p26,
+        col = colores[3],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2021",
+        ylim=c(0,100))
+
+boxplot(M22$p26,
+        col = colores[4],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2022",
+        ylim=c(0,100))
+
+boxplot(M23$p26,
+        col = colores[5],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2023",
+        ylim=c(0,100))
+
+boxplot(M24$p26,
+        col = colores[6],
+        horizontal = TRUE,
+        main = "Minutos continuos dedicados a la lectura \n 2024",
+        ylim=c(0,100))
+
+```
+
+**Histograma de Libros Leídos (2019-2024)**
+
+```{r}
+par(mfrow=c(2,3)) 
+colores = rainbow(6)
+
+hist(M19$p26, 
+     col = colores[1], 
+     main = "Minutos continuos dedicados a la lectura \n 2019", 
+     xlab="Minutos")
+hist(M20$p26, 
+     col = colores[2], 
+     main = "Minutos continuos dedicados a la lectura \n 2020", 
+     xlab="Minutos")
+hist(M21$p26, 
+     col = colores[3], 
+     main = "Minutos continuos dedicados a la lectura \n 2021", 
+     xlab="Minutos")
+hist(M22$p26, 
+     col = colores[4], 
+     main = "Minutos continuos dedicados a la lectura \n 2022", 
+     xlab="Minutos")
+hist(M23$p26, 
+     col = colores[5], 
+     main = "Minutos continuos dedicados a la lectura \n 2023", 
+    xlab="Minutos")
+hist(M24$p26, 
+     col = colores[6], 
+     main = "Minutos continuos dedicados a la lectura \n 2024", 
+    xlab="Minutos")
+```
+
+## 
 
 ## **Variable cualitativa:** ¿El libro leído era digital? (`p8_1`)
 
@@ -420,4 +543,3 @@ boxplot(M22$p4 ~ M22$p8_1, horizontal = TRUE, col = colores, main = "Libros por 
 boxplot(M23$p4 ~ M23$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2023", xlab="Nº de libros", ylab="Formato")
 boxplot(M24$p4 ~ M24$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2024", xlab="Nº de libros", ylab="Formato")
 ```
-
