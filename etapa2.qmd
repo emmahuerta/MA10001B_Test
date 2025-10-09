@@ -4,37 +4,12 @@ author: "Abraham Vicente González A01199401, Maria Alejandra Peiro Loera A00841
 date: today
 format:
   docx:
-    toc: false          # Do not include table of contents
-
+    toc: false
 execute:
-  echo: false          # Show code in the output document
+  echo: false       # hide all code
+  warning: false    # optional: hide warnings
+  message: false    # optional: hide messages
 ---
-
-## Exploración de datos 
-
-### **Calcula medidas estadísticas**
-
-**Variables cuantitativas:**
-
--   Medidas de tendencia central: media, mediana y rango medio.
-
--   Medidas de dispersión: desviación estándar, coeficiente de variación.
-
--   Medidas de posición: cuartiles
-
--   Medidas de forma: sesgo, curtosis
-
-**Variables cualitativas**
-
--   Tabla de distribución de frecuencia
-
--    Para escala ordinal: Mediana
-
-```{r}
-
-```
-
-\\
 
 ### **Explora los datos usando herramientas de visualización**
 
@@ -68,39 +43,6 @@ head(base_completa)
 summary(base_completa)
 ```
 
-
-**Variables cuantitativas:**
-
--   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
-
--   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
-
--   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
-
-### Medidas
-
-Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
-
-
-**Variables cualitativas**
-
--   Distribución de los datos (diagramas de barras, diagramas de pastel)
-
-```{r}
-
-```
-
-## Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo
-
-1.  Calcula las medidas de las variables cuantitativas por categoría de alguna variable categórica de interés
-
-2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
-
-3.  Elabora gráficos comparativos por años si tu objetivo es comparar años
-
-
-### **Calcula medidas estadísticas**
-
 **Variables cuantitativas:**
 
 -   Medidas de tendencia central: media, mediana y rango medio.
@@ -112,40 +54,123 @@ Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, i
 -   Medidas de forma: sesgo, curtosis
 
 ```{r}
-libros_leidos <- M24$p4
 
-# --- Medidas de Tendencia Central ---
-media <- mean(libros_leidos)
-mediana <- median(libros_leidos)
-rango_medio <- (max(libros_leidos) + min(libros_leidos)) / 2
+library(dplyr)
+library(e1071)
+library(knitr)
 
-# --- Medidas de Dispersión ---
-desv_est <- sd(libros_leidos)
-coef_variacion <- (desv_est / media) * 100 
-# --- Medidas de Posición (Cuartiles) ---
-resumen_cuantitativo <- summary(libros_leidos)
-# --- Medidas de Forma ---
-sesgo <- skewness(libros_leidos)
-curtosis <- kurtosis(libros_leidos)
+#Tabla p4
+resumen_p4 <- base_completa %>%
+  group_by(Año) %>%
+  summarise(
+    Minimo = min(p4),
+    Maximo = max(p4),
+    Media = round(mean(p4),2),
+    Mediana = round(median(p4),2),
+    Rango_Medio = round((Maximo + Minimo)/2,2),
+    Desv_Estandar = round(sd(p4),2),
+    Coef_Variacion = round(sd(p4)/mean(p4)*100,2),
+    Q1 = quantile(p4,0.25),
+    Q3 = quantile(p4,0.75),
+    Sesgo = round(skewness(p4),2),
+    Curtosis = round(kurtosis(p4),2)
+  )
+kable(resumen_p4, caption = "Número de libros leídos por año")
+
+# Tabla p26
+resumen_p26 <- base_completa %>%
+  group_by(Año) %>%
+  summarise(
+    Minimo = min(p26),
+    Maximo = max(p26),
+    Media = round(mean(p26),2),
+    Mediana = round(median(p26),2),
+    Rango_Medio = round((Maximo + Minimo)/2,2),
+    Desv_Estandar = round(sd(p26),2),
+    Coef_Variacion = round(sd(p26)/mean(p26)*100,2),
+    Q1 = quantile(p26,0.25),
+    Q3 = quantile(p26,0.75),
+    Sesgo = round(skewness(p26),2),
+    Curtosis = round(kurtosis(p26),2)
+  )
+
+kable(resumen_p26, caption = "Minutos continuos dedicados a la lectura por año")
+
+resumen_edad <- base_completa %>%
+  group_by(Año) %>%
+  summarise(
+    Minimo = min(edad),
+    Maximo = max(edad),
+    Media = round(mean(edad),2),
+    Mediana = round(median(edad),2),
+    Rango_Medio = round((Maximo + Minimo)/2,2),
+    Desv_Estandar = round(sd(edad),2),
+    Coef_Variacion = round(sd(edad)/mean(edad)*100,2),
+    Q1 = quantile(edad,0.25),
+    Q3 = quantile(edad,0.75),
+    Sesgo = round(skewness(edad),2),
+    Curtosis = round(kurtosis(edad),2)
+  )
+
+kable(resumen_p26, caption = "Edad de los encuestados")
 
 
-cat("--- MEDIDAS PARA LA VARIABLE 'p4' (Libros Leídos) ---\n\n")
-cat("Tendencia Central:\n")
-cat("  Media:", round(media, 2), "\n")
-cat("  Mediana:", round(mediana, 2), "\n")
-cat("  Rango Medio:", round(rango_medio, 2), "\n\n")
+```
 
-cat("Dispersión:\n")
-cat("  Desviación Estándar:", round(desv_est, 2), "\n")
-cat("  Coeficiente de Variación:", round(coef_variacion, 2), "%\n\n")
+-   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
 
-cat("Posición (Resumen de 5 números):\n")
-print(resumen_cuantitativo)
-cat("\n")
+-   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
 
-cat("Forma:\n")
-cat("  Sesgo (Skewness):", round(sesgo, 2), "\n")
-cat("  Curtosis (Kurtosis):", round(curtosis, 2), "\n")
+-   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(e1071)
+library(knitr)
+
+nombres_variables <- c("p4" = "Número de libros leídos", 
+                       "p26" = "Minutos continuos dedicados a la lectura",
+                       "edad"= "Edad del informante")
+
+variables <- names(nombres_variables)
+
+#Boxplots
+for(var in variables) {
+  ggplot(base_completa, aes(x = factor(Año), y = .data[[var]])) +
+    geom_boxplot(outlier.colour = "red", outlier.shape = 16) +
+    labs(title = paste("Boxplot de", nombres_variables[var], "por Año"),
+         x = "Año",
+         y = nombres_variables[var]) +
+    theme_minimal() -> p
+  print(p)
+}
+
+# Histogramas
+for(var in variables) {
+  ggplot(base_completa, aes(x = .data[[var]])) +
+    geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+    facet_wrap(~Año, scales = "free_y") +
+    labs(title = paste("Histograma de", nombres_variables[var], "por Año"),
+         x = nombres_variables[var],
+         y = "Frecuencia") +
+    theme_minimal() -> h
+  print(h)
+}
+
+# Correlación global entre p4 y p26
+cor_global <- cor(base_completa$p4, base_completa$p26)
+cat("Correlación global entre Número de libros leídos y Minutos continuos dedicados a la lectura:", 
+    round(cor_global,2), "\n\n")
+
+cor_global <- cor(base_completa$p4, base_completa$edad)
+cat("Correlación global entre Número de libros leídos y edad del infromante:", 
+    round(cor_global,2), "\n\n")
+
+cor_global <- cor(base_completa$p26, base_completa$edad)
+cat("Correlación global entre minutos continuos dedicados a la lectura y edad del infromante:", 
+    round(cor_global,2), "\n\n")
+
 
 ```
 
@@ -156,268 +181,154 @@ cat("  Curtosis (Kurtosis):", round(curtosis, 2), "\n")
 -   Para escala ordinal: Mediana
 
 ```{r}
-formato_libro <- M24$p8_1
+library(dplyr)
+library(ggplot2)
+library(knitr)
 
-frecuencia_abs <- table(formato_libro)
+# Nombres descriptivos
+variables_categoricas <- c(
+  "p3_4" = "¿Leyó un libro en los últimos 12 meses?",
+  "p8_1" = "¿Leyó revistas en los últimos 12 meses?",
+  "p19" = "Formato digital del libro leído",
+  "p32" = "Motivo principal por el que no lee"
+)
 
-frecuencia_rel <- prop.table(frecuencia_abs)
-
-# --- Imprimir resultados ---
-cat("--- TABLA DE FRECUENCIA PARA 'p8_1' (Formato del Libro) ---\n\n")
-cat("Frecuencia Absoluta (Conteo):\n")
-print(frecuencia_abs)
-cat("\n")
-
-cat("Frecuencia Relativa (Proporción):\n")
-print(round(frecuencia_rel, 3))
+# --- Tablas de frecuencia y porcentaje por año ---
+for(var in names(variables_categoricas)) {
+  cat("\n--- Tabla de distribución de frecuencia de", variables_categoricas[var], "por año ---\n\n")
+  
+  tabla <- base_completa %>%
+    group_by(Año, .data[[var]]) %>%
+    summarise(Frecuencia = n(), .groups = "drop") %>%
+    group_by(Año) %>%
+    mutate(Porcentaje = round(Frecuencia / sum(Frecuencia) * 100, 2))
+  
+  print(kable(tabla, caption = paste("Distribución de", variables_categoricas[var], "por año")))
+}
 ```
 
-\\
-
-### **Explora los datos usando herramientas de visualización**
-
-## Lectura de los datos
+-   Distribución de los datos (diagramas de barras y diagramas de pastel)
 
 ```{r}
-M19 = read.csv("data/M19.csv")
-M20 = read.csv("data/M20.csv")
-M21 = read.csv("data/M21.csv")
-M22 = read.csv("data/M22.csv")
-M23 = read.csv("data/M23.csv")
-M24 = read.csv("data/M24.csv")
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(patchwork)
 
-Dicc19 = read.csv("data/Diccionario_molec_2019-1.csv")
-Dicc20 = read.csv("data/Diccionario_molec_2020-1.csv")
-Dicc21 = read.csv("data/Diccionario_molec_2021-1.csv")
-Dicc22 = read.csv("data/Diccionario_molec_2022-1.csv")
-Dicc23 = read.csv("data/Diccionario_molec_2023-1.csv")
-Dicc24 = read.csv("data/Diccionario_molec_2024-1.csv")
+# Nombres descriptivos
+variables_categoricas <- c(
+  "p3_4" = "¿Leyó un libro en los últimos 12 meses?",
+  "p8_1" = "¿Leyó revistas en los últimos 12 meses?",
+  "p19" = "Formato digital del libro leído",
+  "p32" = "Motivo principal por el que no lee"
+)
 
-M19$Año <- 2019
-M20$Año <- 2020
-M21$Año <- 2021
-M22$Año <- 2022
-M23$Año <- 2023
-M24$Año <- 2024
+años <- unique(base_completa$Año)
 
-base_completa <- rbind(M19, M20, M21, M22, M23, M24)
+for(yr in años) {
+  df_year <- base_completa %>% filter(Año == yr)
+  graficos <- list()
+  
+  for(var in names(variables_categoricas)) {
+    g <- ggplot(df_year, aes(x = "", fill = factor(.data[[var]]))) +
+      geom_bar(width = 1) +
+      coord_polar(theta = "y") +
+      labs(title = variables_categoricas[var], fill = "Respuesta") +
+      theme_void() +
+      theme(plot.title = element_text(size = 10))
+    
+    graficos[[var]] <- g
+  }
+  
+  # Combinar todos los gráficos en uno solo (2x2)
+  combined <- (graficos[[1]] | graficos[[2]]) / (graficos[[3]] | graficos[[4]])
+  print(combined + plot_annotation(title = paste("Diagramas de pastel de variables categóricas en", yr)))
+}
 
-head(base_completa)
-summary(base_completa)
-```
+for(yr in años) {
+  df_year <- base_completa %>% filter(Año == yr)
+  graficos <- list()
+  
+  for(var in names(variables_categoricas)) {
+    g <- ggplot(df_year, aes(x = factor(.data[[var]]), fill = factor(.data[[var]]))) +
+      geom_bar() +
+      labs(title = variables_categoricas[var],
+           x = "Respuesta",
+           y = "Frecuencia") +
+      theme_minimal() +
+      theme(plot.title = element_text(size = 10), legend.position = "none")
+    
+    graficos[[var]] <- g
+  }
+  
+  # Combinar todos los gráficos en uno solo (2x2)
+  combined <- (graficos[[1]] | graficos[[2]]) / (graficos[[3]] | graficos[[4]])
+  print(combined + plot_annotation(title = paste("Diagramas de barras de variables categóricas en", yr)))
+}
 
-**Variable cuantitativa:** ¿Cuántos libros leyó? (p4)
 
--   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
-
--   Análisis de distribución de los datos (Histogramas). Identificar si tiene forma simétrica o asimétrica y revisar entre qué valores varían los datos, en donde se concentran más los datos
-
--   Análisis de correlación  de los datos para ver si dos variables cuantitativas están relacionadas linealmente entre sí
-
-### Medidas (2019-2024)
-
-Para las medidas de forma (sesgo y curtosis), se requiere la biblioteca e1071, instálala en el menú superior: *Tools/install Packages*
-
-```{r}
-library(e1071)
-
-d19 = c(as.numeric(summary(M19$p4)), 
-        sd(M19$p4), 
-        skewness(M19$p4), 
-        kurtosis(M19$p4))
-d20 = c(as.numeric(summary(M20$p4)), 
-        sd(M20$p4), 
-        skewness(M20$p4), 
-        kurtosis(M20$p4))
-d21 = c(as.numeric(summary(M21$p4)), 
-        sd(M21$p4), 
-        skewness(M21$p4), 
-        kurtosis(M21$p4))
-d22 = c(as.numeric(summary(M22$p4)), 
-        sd(M22$p4), skewness(M22$p4), 
-        kurtosis(M22$p4))
-d23 = c(as.numeric(summary(M23$p4)), 
-        sd(M23$p4), 
-        skewness(M23$p4), 
-        kurtosis(M23$p4))
-d24 = c(as.numeric(summary(M24$p4)), 
-        sd(M24$p4), 
-        skewness(M24$p4), 
-        kurtosis(M24$p4))
-
-m = data.frame(d19, d20, d21, d22, d23, d24)
-names(m) = c("2019","2020","2021","2022","2023","2024")
-row.names(m) = c("Mínimo","Q1","Mediana","Media","Q3","Máximo", "Desv Est", "Sesgo", "Curtosis")
-round(m,2)
-```
-
-### Gráficos (2019-2024)
-
-**Gráfico de Caja y bigote**
-
-```{r}
-par(mfrow=c(2,3), cex.lab=0.8, cex.main=0.8) 
-colores = rainbow(6)
-
-boxplot(M19$p4,
-        col = colores[1],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2019",
-        ylim=c(0,100))
-
-boxplot(M20$p4,
-        col = colores[2],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2020",
-        ylim=c(0,100))
-
-boxplot(M21$p4,
-        col = colores[3],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2021",
-        ylim=c(0,100))
-
-boxplot(M22$p4,
-        col = colores[4],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2022",
-        ylim=c(0,100))
-
-boxplot(M23$p4,
-        col = colores[5],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2023",
-        ylim=c(0,100))
-
-boxplot(M24$p4,
-        col = colores[6],
-        horizontal = TRUE,
-        main = "Número de libros leídos \n 2024",
-        ylim=c(0,100))
 
 ```
 
-**Histograma de Libros Leídos (2019-2024)**
-
-```{r}
-par(mfrow=c(2,3)) 
-colores = rainbow(6)
-
-hist(M19$p4, 
-     col = colores[1], 
-     main = "Libros leídos \n 2019", 
-     xlab="Número de libros")
-hist(M20$p4, 
-     col = colores[2], 
-     main = "Libros leídos \n 2020", 
-     xlab="Número de libros")
-hist(M21$p4, 
-     col = colores[3], 
-     main = "Libros leídos \n 2021", 
-     xlab="Número de libros")
-hist(M22$p4, 
-     col = colores[4], 
-     main = "Libros leídos \n 2022", 
-     xlab="Número de libros")
-hist(M23$p4, 
-     col = colores[5], 
-     main = "Libros leídos \n 2023", 
-     xlab="Número de libros")
-hist(M24$p4, 
-     col = colores[6], 
-     main = "Libros leídos \n 2024", 
-     xlab="Número de libros")
-```
-
-## **Variable cualitativa:** ¿El libro leído era digital? (`p8_1`)
-
-### Medidas (2019-2024)
-
-```{r}
-n19 = prop.table(table(M19$p8_1))
-n20 = prop.table(table(M20$p8_1))
-n21 = prop.table(table(M21$p8_1))
-n22 = prop.table(table(M22$p8_1))
-n23 = prop.table(table(M23$p8_1))
-n24 = prop.table(table(M24$p8_1))
-
-N = rbind(n19, n20, n21, n22, n23, n24)
-N = addmargins(N, 2, sum)
-
-colnames(N) = c("No Aplica", "Digital", "Impreso", "Total")
-
-row.names(N) = c("2019", "2020", "2021", "2022", "2023", "2024")
-round(N, 3)
-```
-
-### Gráficos
-
-**Gráfico de Pastel por Formato de Libro (2019-2024)**
-
-```{r}
-etiquetas = c("Digital", "Impreso")
-colores = c("cornflowerblue", "lightgoldenrodyellow")
-par(mfrow=c(2,3))
-pie(n19, labels = etiquetas, main = "Formato del libro \n 2019", col=colores)
-pie(n20, labels = etiquetas, main = "Formato del libro \n 2020", col=colores)
-pie(n21, labels = etiquetas, main = "Formato del libro \n 2021", col=colores)
-pie(n22, labels = etiquetas, main = "Formato del libro \n 2022", col=colores)
-pie(n23, labels = etiquetas, main = "Formato del libro \n 2023", col=colores)
-pie(n24, labels = etiquetas, main = "Formato del libro \n 2024", col=colores)
-```
-
-**Gráfico de Líneas por Año** (2019-2024)
-
-```{r}
-x = 2019:2024
-plot(x, y=N[,1], type="o", col="blue", pch=16,
-     ylim=c(0,0.5), ylab="Proporción", xlab="Año",
-     main="Evolución del formato de lectura (2019-2024)")
-lines(x, y=N[,2], type="o", col="orange", pch=16)
-
-legend("topleft", legend=c("Digital", "Impreso"), col=c("blue", "orange"), lty=1, lwd=2, cex=0.8)
-```
-
-## **Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo**
-
-Distribución de los datos (diagramas de barras, diagramas de pastel)
+## Vincula los datos categóricos con los numéricos de acuerdo a tu objetivo:
 
 1.  Calcula las medidas de las variables cuantitativas por categoría de alguna variable categórica de interés
-
 2.  Elabora gráficos de caja y bigote de las variables cuantitativas por categoría de alguna variable categórica de interés
-
 3.  Elabora gráficos comparativos por años si tu objetivo es comparar años
 
-**Medidas: Media de libros leídos por formato**
-
 ```{r}
-etiquetas = c("No Aplica", "Digital", "Impreso") 
+library(dplyr)
+library(ggplot2)
+library(knitr)
 
-medias = data.frame(tapply(M19$p4, M19$p8_1, mean),
-                     tapply(M20$p4, M20$p8_1, mean),
-                     tapply(M21$p4, M21$p8_1, mean),
-                     tapply(M22$p4, M22$p8_1, mean),
-                     tapply(M23$p4, M23$p8_1, mean),
-                     tapply(M24$p4, M24$p8_1, mean))
+# Variables cuantitativas
+cuantitativas <- c("p4", "p26")
+# Variable categórica principal
+cat_var <- "edad"
 
-names(medias) = c("2019", "2020", "2021", "2022", "2023", "2024")
+nombres_variables <- c(
+  "p4" = "Número de libros leídos",
+  "p26" = "Minutos continuos dedicados a la lectura",
+  "edad" = "Edad del encuestado"
+)
 
-row.names(medias) = etiquetas
-round(medias, 2)
+# --- Medidas cuantitativas por Edad ---
+for(num_var in cuantitativas) {
+  cat("\n--- Medidas de", nombres_variables[num_var], "por", nombres_variables[cat_var], "---\n")
+  
+  tabla <- base_completa %>%
+    group_by(.data[[cat_var]]) %>%
+    summarise(
+      Minimo = min(.data[[num_var]], na.rm = TRUE),
+      Maximo = max(.data[[num_var]], na.rm = TRUE),
+      Media = round(mean(.data[[num_var]], na.rm = TRUE), 2),
+      Mediana = round(median(.data[[num_var]], na.rm = TRUE), 2),
+      Desv_Estandar = round(sd(.data[[num_var]], na.rm = TRUE), 2),
+      .groups = "drop"
+    )
+  
+  print(kable(tabla, caption = paste(nombres_variables[num_var], "por", nombres_variables[cat_var])))
+  
+  # --- Boxplot por Edad ---
+  ggplot(base_completa, aes(x = factor(.data[[cat_var]]), y = .data[[num_var]], fill = factor(.data[[cat_var]]))) +
+    geom_boxplot() +
+    labs(title = paste("Boxplot de", nombres_variables[num_var], "por", nombres_variables[cat_var]),
+         x = nombres_variables[cat_var],
+         y = nombres_variables[num_var]) +
+    theme_minimal() +
+    theme(legend.position = "none") -> p
+  print(p)
+  
+  # --- Boxplot comparativo por año ---
+  ggplot(base_completa, aes(x = factor(Año), y = .data[[num_var]], fill = factor(.data[[cat_var]]))) +
+    geom_boxplot(position = position_dodge(width = 0.8)) +
+    labs(title = paste("Comparación de", nombres_variables[num_var], "por Edad y Año"),
+         x = "Año",
+         y = nombres_variables[num_var],
+         fill = nombres_variables[cat_var]) +
+    theme_minimal() -> p_year
+  print(p_year)
+}
+
 
 ```
-
-**Gráficos: Boxplots por formato (2019-2024)**
-
-```{r}
-colores = c("cornflowerblue", "lightgoldenrodyellow")
-par(mfrow=c(2,3), cex.lab=0.8, cex.main=0.8)
-
-boxplot(M19$p4 ~ M19$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2019", xlab="Nº de libros", ylab="Formato")
-boxplot(M20$p4 ~ M20$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2020", xlab="Nº de libros", ylab="Formato")
-boxplot(M21$p4 ~ M21$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2021", xlab="Nº de libros", ylab="Formato")
-boxplot(M22$p4 ~ M22$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2022", xlab="Nº de libros", ylab="Formato")
-boxplot(M23$p4 ~ M23$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2023", xlab="Nº de libros", ylab="Formato")
-boxplot(M24$p4 ~ M24$p8_1, horizontal = TRUE, col = colores, main = "Libros por formato \n 2024", xlab="Nº de libros", ylab="Formato")
-```
-
