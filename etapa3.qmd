@@ -1,0 +1,291 @@
+---
+title: "Etapa 3. Analisis Inferencial"
+author: "Abraham Vicente González A01199401, Maria Alejandra Peiro Loera A00841878, Emma Huerta Villafuerten A01723584, Sebastian Aleman Cervantes A00841034, Natalia Ixchel Reynoso Ramírez A01352603"
+date: today
+format:
+  docx:
+    toc: false
+execute:
+  echo: false       # hide all code
+  warning: false    # optional: hide warnings
+  message: false    # optional: hide messages
+---
+
+### Lectura de los datos
+
+```{r}
+M19 = read.csv("data/M19.csv")
+M20 = read.csv("data/M20.csv")
+M21 = read.csv("data/M21.csv")
+M22 = read.csv("data/M22.csv")
+M23 = read.csv("data/M23.csv")
+M24 = read.csv("data/M24.csv")
+
+
+M19$Año <- 2019
+M20$Año <- 2020
+M21$Año <- 2021
+M22$Año <- 2022
+M23$Año <- 2023
+M24$Año <- 2024
+
+base = rbind(M19, M20, M21, M22, M23, M24)
+
+
+base$p3_1 <- as.numeric(as.character(base$p3_1))
+
+
+
+library(dplyr)
+library(ggplot2)
+library(DescTools)
+library(car)
+library(vcd)
+
+# Crear rango de edad (para chi-cuadrada más tarde)
+base <- base %>%
+  mutate(edad_grupo = cut(edad, breaks=c(17,30,45,60,98), labels=c("18-30","31-45","46-60","61-98")))
+
+```
+
+### Media de libros leídos por año
+```{r}
+alfa = 0.04 
+
+IC_libros <- base %>%
+  group_by(Año) %>%
+  summarise(
+    n = n(),
+    media = mean(p4, na.rm = TRUE),
+    sd = sd(p4, na.rm = TRUE),
+    IC_lower = media - qt(1-alfa/2, n-1)*(sd/sqrt(n)),
+    IC_upper = media + qt(1-alfa/2, n-1)*(sd/sqrt(n))
+  )
+IC_libros
+```
+### Media de minutos leídos por año
+```{r}
+alfa = 0.04 
+
+IC_minutos <- base %>%
+  group_by(Año) %>%
+  summarise(
+    n = n(),
+    media = mean(p26, na.rm = TRUE),
+    sd = sd(p26, na.rm = TRUE),
+    IC_lower = media - qt(1-alfa/2, n-1)*(sd/sqrt(n)),
+    IC_upper = media + qt(1-alfa/2, n-1)*(sd/sqrt(n))
+  )
+IC_minutos
+```
+
+
+
+
+### Proporción que leyó libros por año
+```{r}
+
+base$p3_1 <- as.numeric(as.character(base$p3_1))
+
+alfa = 0.04
+
+IC_libros <- base %>%
+  filter(!is.na(p3_1)) %>%           # quitar NA
+  group_by(Año) %>%
+  summarise(
+    n = n(),
+    x = sum(p3_1 == 1),
+    prop = mean(p3_1 == 1),
+    IC_lower = prop.test(x, n, conf.level = 1-alfa)$conf.int[1],
+    IC_upper = prop.test(x, n, conf.level = 1-alfa)$conf.int[2]
+  )
+
+IC_libros
+```
+
+
+### Proporción que revistas por año
+```{r}
+base$p3_4 <- as.numeric(as.character(base$p3_4))
+
+alfa = 0.04
+
+IC_revistas <- base %>%
+  filter(!is.na(p3_4)) %>%           # quitar NA
+  group_by(Año) %>%
+  summarise(
+    n = n(),
+    x = sum(p3_4 == 1),
+    prop = mean(p3_4 == 1),
+    IC_lower = prop.test(x, n, conf.level = 1-alfa)$conf.int[1],
+    IC_upper = prop.test(x, n, conf.level = 1-alfa)$conf.int[2]
+  )
+
+IC_revistas
+
+```
+
+
+### Proporción que leyó en digital por año
+```{r}
+base$p8_1 <- as.numeric(as.character(base$p8_1))
+
+alfa = 0.04
+
+IC_revistas <- base %>%
+  filter(!is.na(p8_1)) %>%           # quitar NA
+  group_by(Año) %>%
+  summarise(
+    n = n(),
+    x = sum(p8_1 == 1),
+    prop = mean(p8_1 == 1),
+    IC_lower = prop.test(x, n, conf.level = 1-alfa)$conf.int[1],
+    IC_upper = prop.test(x, n, conf.level = 1-alfa)$conf.int[2]
+  )
+
+IC_revistas
+
+```
+
+
+### Pruebas de Hipotesis
+
+### Diferencia de medias
+
+## Libros leidos entre 2019 y 2022
+H0: La media de libros leidos es la misma en 2019 y 2022
+H1: Las medias son diferentes
+```{r}
+datos_2019 <- subset(base, Año == 2019 & !is.na(p4))
+datos_2022 <- subset(base, Año == 2022 & !is.na(p4))
+
+t.test(datos_2019$p4, datos_2022$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+```
+
+## Libros leidos entre 2022 y 2024
+H0: La media de libros leidos es la misma en 2022 y 2024
+H1: Las medias son diferentes
+```{r}
+datos_2022 <- subset(base, Año == 2022 & !is.na(p4))
+datos_2024 <- subset(base, Año == 2024 & !is.na(p4))
+
+t.test(datos_2022$p4, datos_2024$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+```
+
+## Minutos leidos entre 2019 y 2021
+H0: La media de minutos de lectura es la misma en 2019 y 2021
+H1: Las medias son diferentes
+```{r}
+datos_2019 <- subset(base, Año == 2019 & !is.na(p26))
+datos_2021 <- subset(base, Año == 2021 & !is.na(p26))
+
+t.test(datos_2019$p26, datos_2021$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+```
+
+## Minutos leidos entre 2021 y 2024
+H0: La media de minutos de lectura es la misma en 2021 y 2024
+H1: Las medias son diferentes
+```{r}
+datos_2021 <- subset(base, Año == 2021 & !is.na(p4))
+datos_2024 <- subset(base, Año == 2024 & !is.na(p4))
+
+t.test(datos_2021$p26, datos_2024$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+```
+### Diferencia de proporciones
+
+## Personas que leen libros entre 2019 y 2021
+H0: La proporción de lectura de libros es la misma en 2019 y 2021
+H1: La proporción es diferente
+```{r}
+datos_2019 <- subset(base, Año == 2019 & !is.na(p3_1))
+datos_2021 <- subset(base, Año == 2021 & !is.na(p3_1))
+
+x1 <- sum(datos_2019$p3_1 == 1)
+n1 <- nrow(datos_2019)
+
+x2 <- sum(datos_2021$p3_1 == 1)
+n2 <- nrow(datos_2021)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```
+
+## Personas que leen libros entre 2021 y 2024
+H0: La proporción de lectura de libros es la misma en 2021 y 2024
+H1: La proporción es diferente
+```{r}
+datos_2021 <- subset(base, Año == 2021 & !is.na(p3_1))
+datos_2024 <- subset(base, Año == 2024 & !is.na(p3_1))
+
+x1 <- sum(datos_2021$p3_1 == 1)
+n1 <- nrow(datos_2021)
+
+x2 <- sum(datos_2024$p3_1 == 1)
+n2 <- nrow(datos_2024)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```
+
+
+## Personas que leen revistas entre 2019 y 2021
+H0: La proporción de lectura de revistas es la misma en 2019 y 2021
+H1: La proporción es diferente
+```{r}
+datos_2019 <- subset(base, Año == 2019 & !is.na(p3_4))
+datos_2021 <- subset(base, Año == 2021 & !is.na(p3_4))
+
+x1 <- sum(datos_2019$p3_4 == 1)
+n1 <- nrow(datos_2019)
+
+x2 <- sum(datos_2021$p3_4 == 1)
+n2 <- nrow(datos_2021)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```
+
+## Personas que leen revistas entre 2021 y 2024
+H0: La proporción de lectura de revistas es la misma en 2021 y 2024
+H1: La proporción es diferente
+```{r}
+datos_2021 <- subset(base, Año == 2021 & !is.na(p3_4))
+datos_2024 <- subset(base, Año == 2024 & !is.na(p3_4))
+
+x1 <- sum(datos_2021$p3_4 == 1)
+n1 <- nrow(datos_2021)
+
+x2 <- sum(datos_2024$p3_4 == 1)
+n2 <- nrow(datos_2024)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```
+
+## Personas que leen en formato digital entre 2019 y 2021
+H0: La proporción de en formato digital es la misma en 2019 y 2021
+H1: La proporción es diferente
+```{r}
+datos_2019 <- subset(base, Año == 2019 & !is.na(p8_1))
+datos_2021 <- subset(base, Año == 2021 & !is.na(p8_1))
+
+x1 <- sum(datos_2019$p8_1 == 1)
+n1 <- nrow(datos_2019)
+
+x2 <- sum(datos_2021$p8_1 == 1)
+n2 <- nrow(datos_2021)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```
+
+## Personas que leen en formato digital entre 2021 y 2024
+H0: La proporción de en formato digital es la misma en 2021 y 2024
+H1: La proporción es diferente
+```{r}
+datos_2021 <- subset(base, Año == 2021 & !is.na(p8_1))
+datos_2024 <- subset(base, Año == 2024 & !is.na(p8_1))
+
+x1 <- sum(datos_2021$p8_1 == 1)
+n1 <- nrow(datos_2021)
+
+x2 <- sum(datos_2024$p8_1 == 1)
+n2 <- nrow(datos_2024)
+
+prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+```

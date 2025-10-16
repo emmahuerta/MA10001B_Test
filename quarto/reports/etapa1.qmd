@@ -154,12 +154,12 @@ Link Github: <https://github.com/emmahuerta/MA10001B_Test>
 library(tidyverse)
 library(here)
 
-M19 <- read_csv(here("data", "Datos_molec_2019.csv"))
-M20 <- read_csv(here("data", "Datos_molec_2020.csv"))
-M21 <- read_csv(here("data", "Datos_molec_2021.csv"))
-M22 <- read_csv(here("data", "Datos_molec_2022.csv"))
-M23 <- read_csv(here("data", "Datos_molec_2023.csv"))
-M24 <- read_csv(here("data", "Datos_molec_2024.csv"))
+M19.1 <- read_csv(here("data", "Datos_molec_2019.csv"))
+M20.1 <- read_csv(here("data", "Datos_molec_2020.csv"))
+M21.1 <- read_csv(here("data", "Datos_molec_2021.csv"))
+M22.1 <- read_csv(here("data", "Datos_molec_2022.csv"))
+M23.1 <- read_csv(here("data", "Datos_molec_2023.csv"))
+M24.1 <- read_csv(here("data", "Datos_molec_2024.csv"))
 ```
 
 Todas las bases de datos tienen 108 columnas que corresponden a las variables, mientras que cada una tiene diferentes filas dependiendo del número de personas que realizaron la encuesta. Para el año 2019 tenemos 1980 entradas, para 2020 tenemos 2010, para 2021 tenemos 1948, en 2022 tenemos 2016 filas, en 2023 tenemos 1996, y finalmente para 2024 tenemos 2016 entradas. La mayoría de las variables son cualitativas, pero están insertas como números. Se tiene que revisar en el contexto del problema cuáles son realmente numéricas.
@@ -207,13 +207,12 @@ Aunque en la mayor parte de las variables, las medidas calculadas (media, median
 ## Selección de las variables
 
 ```{r}
-#| echo: false
-M19selec <- M19[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
-M20selec <- M20[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
-M21selec <- M21[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
-M22selec <- M22[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
-M23selec <- M23[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
-M24selec <- M24[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
+M19selec <- M19.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M20selec <- M20.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M21selec <- M21.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M22selec <- M22.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M23selec <- M23.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M24selec <- M24.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
 ```
 
 ## Datos perdidos o faltantes
@@ -221,56 +220,46 @@ M24selec <- M24[, c("p4", "p26","p3_4", "p8_1", "p19", "p32", "edad")]
 Visualizo si las variables de interés tienen datos perdidos:
 
 ```{r}
-#| echo: false
-summary(M19selec)
 sapply(M19selec, function(x) sum(is.na(x)))
 
-summary(M20selec)
 sapply(M20selec, function(x) sum(is.na(x)))
 
-summary(M21selec)
 sapply(M21selec, function(x) sum(is.na(x)))
 
-summary(M22selec)
 sapply(M22selec, function(x) sum(is.na(x)))
 
-summary(M23selec)
 sapply(M23selec, function(x) sum(is.na(x)))
 
-summary(M24selec)
 sapply(M24selec, function(x) sum(is.na(x)))
 
 ```
 Como ninguna de nuestras variables tiene datos faltantes no es necesario eliminar nada.
 
 
-## Datos perdidos o faltantes
+## Eliminar ceros
+```{r}
+cols <- c("p3_1","p3_4", "p5", "p8_1", "p32")
+bases <- paste0("M", 19:24)
+
+for (b in bases) {
+  df <- get(b)
+  cols_exist <- intersect(cols, names(df))  # columnas que existen
+  df[, cols_exist] <- lapply(df[, cols_exist], function(x) ifelse(x == 0, NA, x))
+  assign(b, df)
+}
+
+```
+
 
 
 
 ```{r}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
->>>>>>> b2b9e0fa3ea44c634b6a88b1584b4432758d1643
->>>>>>> e7b2e994c08cf2aab83d90a7b038605d411c4e8e
 write.csv(M19selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
 write.csv(M20selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M20.csv")
 write.csv(M21selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M21.csv")
 write.csv(M22selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M22.csv")
 write.csv(M23selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M23.csv")
 write.csv(M24selec, file = "/Users/emmahuerta/Documents/GitHub/MA1001B/data/M24.csv")
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-write.csv(M19selec, file = "C:/Users/emmahuerta/Documents/GitHub/MA1001B/data/M19.csv")
->>>>>>> 43b48f658cc1b7da9676caa3b247bd53a9bf1fb4
->>>>>>> b2b9e0fa3ea44c634b6a88b1584b4432758d1643
->>>>>>> e7b2e994c08cf2aab83d90a7b038605d411c4e8e
 
 ```
