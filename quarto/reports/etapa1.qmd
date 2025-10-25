@@ -207,12 +207,12 @@ Aunque en la mayor parte de las variables, las medidas calculadas (media, median
 ## Selección de las variables
 
 ```{r}
-M19selec <- M19.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
-M20selec <- M20.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
-M21selec <- M21.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
-M22selec <- M22.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
-M23selec <- M23.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
-M24selec <- M24.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32", "edad")]
+M19selec <- M19.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
+M20selec <- M20.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
+M21selec <- M21.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
+M22selec <- M22.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
+M23selec <- M23.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
+M24selec <- M24.1[, c("p4", "p26","p3_1","p3_4", "p8_1", "p5", "p32")]
 ```
 
 ## Datos perdidos o faltantes
@@ -249,7 +249,6 @@ for (b in bases) {
 }
 
 ```
-
 
 
 
