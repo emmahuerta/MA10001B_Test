@@ -29,12 +29,10 @@ M22$Año <- 2022
 M23$Año <- 2023
 M24$Año <- 2024
 
-base = rbind(M19, M20, M21, M22, M23, M24)
+basetotal = rbind(M19, M20, M21, M22, M23, M24)
 
 
 base$p3_1 <- as.numeric(as.character(base$p3_1))
-
-
 
 library(dplyr)
 library(ggplot2)
@@ -42,17 +40,41 @@ library(DescTools)
 library(car)
 library(vcd)
 
-# Crear rango de edad (para chi-cuadrada más tarde)
-base <- base %>%
-  mutate(edad_grupo = cut(edad, breaks=c(17,30,45,60,98), labels=c("18-30","31-45","46-60","61-98")))
+library(dplyr)
+
+data_frame_a_checar <- basetotal 
+
+# Calcular el porcentaje de ceros por columna
+analisis_ceros_por_columna <- data_frame_a_checar %>%
+  # Resumir cada columna
+  summarise(across(everything(), 
+                   .fns = list(
+                     # Calcular el porcentaje de ceros: (conteo de ceros / total de filas) * 100
+                     Porcentaje_Ceros = ~ round(sum(. == 0, na.rm = TRUE) / n() * 100, 2)
+                   ))) %>%
+  # Transponer la tabla para mejor lectura
+  tidyr::pivot_longer(cols = everything(), 
+                      names_to = "Variable", 
+                      values_to = "Porcentaje_Ceros") %>%
+  # Limpiar los nombres de las columnas después de la transposición (dplyr 1.0.0+)
+  mutate(Variable = gsub("_Porcentaje_Ceros", "", Variable)) %>%
+  # Opcional: Ordenar para ver las variables con más ceros primero
+  arrange(desc(Porcentaje_Ceros)) 
+
+print("Porcentaje de ceros por variable:")
+print(analisis_ceros_por_columna)
+
+base <-basetotal %>%
+  mutate(across(.cols = everything(), ~ na_if(., 0)))
 
 ```
 
-### Media de libros leídos por año
+### Media de libros leídos por año y Graficas
 ```{r}
 alfa = 0.04 
 
 IC_libros <- base %>%
+  filter(!is.na(p4)) %>%
   group_by(Año) %>%
   summarise(
     n = n(),
@@ -62,6 +84,24 @@ IC_libros <- base %>%
     IC_upper = media + qt(1-alfa/2, n-1)*(sd/sqrt(n))
   )
 IC_libros
+
+
+library(ggplot2)
+
+ggplot(IC_libros, aes(x = as.factor(Año), y = media)) +
+  geom_point(size = 3, color = "darkblue") +
+  geom_errorbar(aes(ymin = IC_lower, ymax = IC_upper), 
+                width = 0.2, 
+                color = "darkblue") +
+  
+  labs(title = "Intervalos de Confianza del 96% para la Media de Libros Leídos por Año",
+       x = "Año",
+       y = "Media de Libros Leídos (IC 96%)") +
+  
+  coord_cartesian(ylim = c(2.5, 4.5)) +
+  
+  theme_minimal() +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1)) 
 ```
 ### Media de minutos leídos por año
 ```{r}
@@ -77,10 +117,23 @@ IC_minutos <- base %>%
     IC_upper = media + qt(1-alfa/2, n-1)*(sd/sqrt(n))
   )
 IC_minutos
+
+
+library(ggplot2)
+
+ggplot(IC_minutos, aes(x = as.factor(Año), y = media)) +
+  geom_point(size = 3, color = "darkblue") +
+  geom_errorbar(aes(ymin = IC_lower, ymax = IC_upper), 
+                width = 0.2, 
+                color = "darkblue") +
+  
+  labs(title = "Intervalos de Confianza del 96% para la Media de Minutos Continuos Leídos",
+       x = "Año",
+       y = " Media de Minutos Continuos (IC 96%)") +
+  coord_cartesian(ylim = c(35, 45)) +
+  theme_minimal() +
+  scale_x_discrete(guide = guide_axis(n.dodge = 1)) 
 ```
-
-
-
 
 ### Proporción que leyó libros por año
 ```{r}
@@ -101,6 +154,26 @@ IC_libros <- base %>%
   )
 
 IC_libros
+
+library(ggplot2)
+
+ggplot(IC_libros, aes(x = as.factor(Año), y = prop)) +
+
+  geom_point(size = 3, color = "darkred") +
+  
+  geom_errorbar(aes(ymin = IC_lower, ymax = IC_upper), 
+                width = 0.2, 
+                color = "darkred") +
+  
+  labs(title = "Intervalos de Confianza (96%) para la Proporción de Lectores por Año",
+       x = "Año",
+       y = "Proporción de Personas que Leyeron Libros") +
+  
+  scale_y_continuous(labels = scales::percent, limits = c(0, max(IC_libros$IC_upper) * 1.05)) +
+  
+  coord_cartesian(ylim = c(0.3, 0.5)) +
+  
+  theme_minimal()
 ```
 
 
@@ -123,6 +196,26 @@ IC_revistas <- base %>%
 
 IC_revistas
 
+library(ggplot2)
+
+ggplot(IC_revistas, aes(x = as.factor(Año), y = prop)) +
+
+  geom_point(size = 3, color = "darkred") +
+  
+  geom_errorbar(aes(ymin = IC_lower, ymax = IC_upper), 
+                width = 0.2, 
+                color = "darkred") +
+  
+  labs(title = "Intervalos de Confianza (96%) para la Proporción de Personas que leen Revistas por Año",
+       x = "Año",
+       y = "Proporción de Personas que leen Revistas") +
+  
+  scale_y_continuous(labels = scales::percent, limits = c(0, max(IC_libros$IC_upper) * 1.05)) +
+  
+  coord_cartesian(ylim = c(0, 0.10)) +
+  
+  theme_minimal()
+
 ```
 
 
@@ -132,8 +225,8 @@ base$p8_1 <- as.numeric(as.character(base$p8_1))
 
 alfa = 0.04
 
-IC_revistas <- base %>%
-  filter(!is.na(p8_1)) %>%           # quitar NA
+IC_digital <- base %>%
+  filter(!is.na(p8_1)) %>%           
   group_by(Año) %>%
   summarise(
     n = n(),
@@ -143,10 +236,168 @@ IC_revistas <- base %>%
     IC_upper = prop.test(x, n, conf.level = 1-alfa)$conf.int[2]
   )
 
-IC_revistas
+IC_digital
+
+
+library(ggplot2)
+
+ggplot(IC_digital, aes(x = as.factor(Año), y = prop)) +
+
+  geom_point(size = 3, color = "darkred") +
+  
+  geom_errorbar(aes(ymin = IC_lower, ymax = IC_upper), 
+                width = 0.2, 
+                color = "darkred") +
+  
+  labs(title = "Intervalos de Confianza (96%) para la Proporción de Personas que Leen en Digital",
+       x = "Año",
+       y = "Proporción de Personas que Leen en Digital") +
+  
+  scale_y_continuous(labels = scales::percent, limits = c(0, max(IC_libros$IC_upper) * 1.05)) +
+  
+  coord_cartesian(ylim = c(0.07, 0.35)) +
+  
+  theme_minimal()
+
 
 ```
 
+### Analisis de Variables Categoricas
+```{r}
+# Instalación y carga del paquete 'dplyr' (si no lo has hecho)
+# install.packages("dplyr")
+library(dplyr)
+
+# Definir las etiquetas para p5
+etiquetas_p5 <- c(
+  "1" = "Trabajo", 
+  "2" = "Estudio", 
+  "3" = "Cultura general", 
+  "4" = "Entretenimiento", 
+  "5" = "Religión", 
+  "6" = "Otro"
+)
+
+# Definir las etiquetas para p32
+etiquetas_p32 <- c(
+  "1" = "Falta de interés/gusto", 
+  "2" = "Preferencia por otra actividad", 
+  "3" = "Falta de tiempo", 
+  "4" = "Falta de dinero", 
+  "5" = "Problemas de salud", 
+  "6" = "Otro"
+)
+
+# Aplicar las etiquetas y convertir a factor
+base$p5_label <- as.factor(
+  dplyr::recode(as.character(base$p5), !!!etiquetas_p5)
+)
+base$p32_label <- as.factor(
+  dplyr::recode(as.character(base$p32), !!!etiquetas_p32)
+)
+
+## Análisis de p5 por Año
+analisis_p5 <- base %>%
+  filter(!is.na(p5_label)) %>% 
+  group_by(Año, p5_label) %>%
+  summarise(
+    Frecuencia = n(), 
+    .groups = 'drop_last' # Agrupamos por Año para el cálculo de porcentaje
+  ) %>%
+  mutate(
+    Porcentaje = Frecuencia / sum(Frecuencia) * 100
+  ) %>%
+  ungroup() %>%
+  # Ordenar para una mejor visualización
+  arrange(Año, desc(Porcentaje))
+
+# Mostrar los resultados
+print("Análisis de p5 (Motivo principal para leer):")
+print(analisis_p5)
+
+# Opcional: Visualización del Top 3 de p5 a lo largo del tiempo
+library(ggplot2)
+ggplot(analisis_p5, aes(x = as.factor(Año), y = Porcentaje, fill = p5_label)) +
+   geom_bar(stat = "identity", position = "fill") + 
+   labs(title = "Motivo principal para leer por Año", 
+        x = "Año", y = "Proporción", fill = "Motivo") +
+   theme_minimal()
+
+## Análisis de p5 por Año
+analisis_p32 <- base %>%
+  filter(!is.na(p32_label)) %>% 
+  group_by(Año, p32_label) %>%
+  summarise(
+    Frecuencia = n(), 
+    .groups = 'drop_last' # Agrupamos por Año para el cálculo de porcentaje
+  ) %>%
+  mutate(
+    Porcentaje = Frecuencia / sum(Frecuencia) * 100
+  ) %>%
+  ungroup() %>%
+  # Ordenar para una mejor visualización
+  arrange(Año, desc(Porcentaje))
+
+# Mostrar los resultados
+print("Análisis de motivo principal para no leer):")
+print(analisis_p32)
+
+# Opcional: Visualización del Top 3 de p5 a lo largo del tiempo
+library(ggplot2)
+ggplot(analisis_p32, aes(x = as.factor(Año), y = Porcentaje, fill = p32_label)) +
+   geom_bar(stat = "identity", position = "fill") + 
+   labs(title = "Motivo principal para no leer por Año", 
+        x = "Año", y = "Proporción", fill = "Motivo") +
+   theme_minimal()
+```
+
+
+```{r}
+library(dplyr)
+# Filtrar solo la categoría "Falta de in" (código 3)
+falta_tiempo_p32 <- analisis_p32 %>%
+  filter(p32_label == "Falta de tiempo")
+
+# Mostrar la tabla filtrada para verificar
+print("Porcentaje de 'Falta de tiempo' por Año:")
+print(falta_tiempo_p32)
+
+# Instalar si no lo tienes: install.packages("ggplot2")
+library(ggplot2)
+
+# Crear la gráfica
+grafica_tendencia <- ggplot(falta_tiempo_p32, aes(x = Año, y = Porcentaje)) +
+  # Añadir puntos para cada año
+  geom_point(color = "#0072B2", size = 3) + 
+  # Añadir una línea para conectar los puntos (la tendencia)
+  geom_line(color = "#0072B2", linewidth = 1) +
+  # Etiquetas de datos para mayor claridad
+  geom_text(aes(label = round(Porcentaje, 1)), vjust = -1, color = "black") + 
+  
+  # Estética y Títulos
+  labs(
+    title = "Tendencia Anual de la 'Falta de Tiempo' (Motivo principal para no leer)",
+    subtitle = "Porcentaje de encuestados que citan la falta de tiempo (2019-2024)",
+    x = "Año",
+    y = "Porcentaje (%)",
+    caption = "Fuente: Datos M19-M24. Excluye No Respuesta (0)."
+  ) +
+  
+  # Mejorar el tema de la gráfica
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    # Asegurar que el eje X se trate como escala continua (números)
+    axis.text.x = element_text(angle = 45, hjust = 1) 
+  ) +
+  # Asegurar que el eje X muestre todos los años (si están disponibles en los datos)
+  scale_x_continuous(breaks = unique(falta_tiempo_p32$Año)) +
+  coord_cartesian(ylim = c(40, 48)) 
+
+# Mostrar la gráfica
+print(grafica_tendencia)
+```
 
 ### Pruebas de Hipotesis
 
@@ -156,20 +407,55 @@ IC_revistas
 H0: La media de libros leidos es la misma en 2019 y 2022
 H1: Las medias son diferentes
 ```{r}
+alfa = 0.04 
+
 datos_2019 <- subset(base, Año == 2019 & !is.na(p4))
 datos_2022 <- subset(base, Año == 2022 & !is.na(p4))
 
-t.test(datos_2019$p4, datos_2022$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest = t.test(datos_2019$p4, datos_2022$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest
+
+valor_p = ttest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la media de libros leídos en 2019 es SIGNIFICATIVAMENTE diferente de la media en 2022 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la media de libros leídos en 2019 es significativamente diferente de la media en 2022 (con una confianza del 96%).")
+}
+
 ```
 
 ## Libros leidos entre 2022 y 2024
 H0: La media de libros leidos es la misma en 2022 y 2024
 H1: Las medias son diferentes
 ```{r}
+alfa = 0.04
+
 datos_2022 <- subset(base, Año == 2022 & !is.na(p4))
 datos_2024 <- subset(base, Año == 2024 & !is.na(p4))
 
-t.test(datos_2022$p4, datos_2024$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest = t.test(datos_2022$p4, datos_2024$p4, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest
+
+valor_p = ttest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la media de libros leídos en 2022 es SIGNIFICATIVAMENTE diferente de la media en 2024 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la media de libros leídos en 2022 es significativamente diferente de la media en 2024 (con una confianza del 96%).")
+}
 ```
 
 ## Minutos leidos entre 2019 y 2021
@@ -179,7 +465,23 @@ H1: Las medias son diferentes
 datos_2019 <- subset(base, Año == 2019 & !is.na(p26))
 datos_2021 <- subset(base, Año == 2021 & !is.na(p26))
 
-t.test(datos_2019$p26, datos_2021$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest= t.test(datos_2019$p26, datos_2021$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest
+
+valor_p = ttest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la media de minuto leídos en 2019 es SIGNIFICATIVAMENTE diferente de la media en 2021 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la media de minutos leídos en 2019 es significativamente diferente de la media en 2021 (con una confianza del 96%).")
+}
+
 ```
 
 ## Minutos leidos entre 2021 y 2024
@@ -189,12 +491,27 @@ H1: Las medias son diferentes
 datos_2021 <- subset(base, Año == 2021 & !is.na(p4))
 datos_2024 <- subset(base, Año == 2024 & !is.na(p4))
 
-t.test(datos_2021$p26, datos_2024$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest = t.test(datos_2021$p26, datos_2024$p26, alternative = "two.sided", var.equal = FALSE, conf.level = 0.96)
+ttest
+
+valor_p = ttest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la media de minuto leídos en 2021 es SIGNIFICATIVAMENTE diferente de la media en 2024 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la media de minutos leídos en 2021 es significativamente diferente de la media en 2024 (con una confianza del 96%).")
+}
 ```
 ### Diferencia de proporciones
 
 ## Personas que leen libros entre 2019 y 2021
-H0: La proporción de lectura de libros es la misma en 2019 y 2021
+H0: La proporción de personas que leen es la misma en 2019 y 2021
 H1: La proporción es diferente
 ```{r}
 datos_2019 <- subset(base, Año == 2019 & !is.na(p3_1))
@@ -206,7 +523,22 @@ n1 <- nrow(datos_2019)
 x2 <- sum(datos_2021$p3_1 == 1)
 n2 <- nrow(datos_2021)
 
-prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest = prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest 
+
+valor_p = ptest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la proporción de lectores en 2019 es SIGNIFICATIVAMENTE diferente de la proporción en 2021 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la proporción lectores en 2019 es significativamente diferente de la proporción en 2021 (con una confianza del 96%).")
+}
 ```
 
 ## Personas que leen libros entre 2021 y 2024
@@ -222,7 +554,22 @@ n1 <- nrow(datos_2021)
 x2 <- sum(datos_2024$p3_1 == 1)
 n2 <- nrow(datos_2024)
 
-prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest = prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest 
+
+valor_p = ptest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la proporción de lectores en 2021 es SIGNIFICATIVAMENTE diferente de la proporción en 2024 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la proporción lectores en 2021 es significativamente diferente de la proporción en 2024 (con una confianza del 96%).")
+}
 ```
 
 
@@ -271,7 +618,22 @@ n1 <- nrow(datos_2019)
 x2 <- sum(datos_2021$p8_1 == 1)
 n2 <- nrow(datos_2021)
 
-prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest = prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest 
+
+valor_p = ptest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la proporción de lectores digitales en 2019 es SIGNIFICATIVAMENTE diferente de la proporción en 2021 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la proporción lectores digitales en 2019 es significativamente diferente de la proporción en 2021 (con una confianza del 96%).")
+}
 ```
 
 ## Personas que leen en formato digital entre 2021 y 2024
@@ -287,5 +649,20 @@ n1 <- nrow(datos_2021)
 x2 <- sum(datos_2024$p8_1 == 1)
 n2 <- nrow(datos_2024)
 
-prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest = prop.test(c(x1, x2), c(n1, n2), conf.level = 0.96)
+ptest 
+
+valor_p = ptest$p.value
+
+if (valor_p < alfa) {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es menor que alfa (", alfa, "), se RECHAZA la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que la proporción de lectores digitales en 2021 es SIGNIFICATIVAMENTE diferente de la proporción en 2024 (con una confianza del 96%).")
+} else {
+  print(
+    paste("Dado que el valor p (", round(valor_p, 4), ") es mayor o igual que alfa (", alfa, "), NO se rechaza la hipótesis nula (H0).")
+  )
+  print("Esto sugiere que NO hay evidencia suficiente para afirmar que la proporción lectores digitales en 2021 es significativamente diferente de la proporción en 2024 (con una confianza del 96%).")
+}
 ```

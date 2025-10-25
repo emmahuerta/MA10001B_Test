@@ -39,8 +39,30 @@ M24$Año <- 2024
 
 base_completa <- rbind(M19, M20, M21, M22, M23, M24)
 
+library(dplyr)
+
+data_frame_a_checar <- base_completa 
+
+analisis_ceros_por_columna <- data_frame_a_checar %>%
+  summarise(across(everything(), 
+                   .fns = list(
+                     # Calcular el porcentaje de ceros: (conteo de ceros / total de filas) * 100
+                     Porcentaje_Ceros = ~ round(sum(. == 0, na.rm = TRUE) / n() * 100, 2)
+                   ))) %>%
+  tidyr::pivot_longer(cols = everything(), 
+                      names_to = "Variable", 
+                      values_to = "Porcentaje_Ceros") %>%
+  mutate(Variable = gsub("_Porcentaje_Ceros", "", Variable)) %>%
+  arrange(desc(Porcentaje_Ceros)) 
+
+print("Porcentaje de ceros por variable:")
+print(analisis_ceros_por_columna)
+
 head(base_completa)
 summary(base_completa)
+
+base <-base_completa %>%
+  mutate(across(.cols = everything(), ~ na_if(., 0)))
 ```
 
 ## **Variables cuantitativas:**
@@ -59,10 +81,21 @@ library(dplyr)
 library(e1071)
 library(knitr)
 
+ntotal <- base %>%
+  filter(!is.na(p4)) %>%
+  filter(!is.na(p26)) %>%
+  summarise(
+    n_total4 = sum(p4),
+    n_total26 = sum(p26)
+  )
+kable(ntotal, caption = "Número de datos por variable")
+
 #Tabla p4
-resumen_p4 <- base_completa %>%
+resumen_p4 <- base %>%
+  filter(!is.na(p4)) %>%
   group_by(Año) %>%
   summarise(
+    Numerodatos= sum(p4),
     Minimo = min(p4),
     Maximo = max(p4),
     Media = round(mean(p4),2),
@@ -78,9 +111,11 @@ resumen_p4 <- base_completa %>%
 kable(resumen_p4, caption = "Número de libros leídos por año")
 
 # Tabla p26
-resumen_p26 <- base_completa %>%
+resumen_p26 <- base %>%
+  filter(!is.na(p26)) %>%
   group_by(Año) %>%
   summarise(
+    Numerodatos= sum(p26),
     Minimo = min(p26),
     Maximo = max(p26),
     Media = round(mean(p26),2),
@@ -96,25 +131,37 @@ resumen_p26 <- base_completa %>%
 
 kable(resumen_p26, caption = "Minutos continuos dedicados a la lectura por año")
 
-#Tabla edad
-resumen_edad <- base_completa %>%
-  group_by(Año) %>%
+
+
+#BINOMIALES
+
+analisis_descriptivo_global_p3_1 <- base %>%
   summarise(
-    Minimo = min(edad),
-    Maximo = max(edad),
-    Media = round(mean(edad),2),
-    Mediana = round(median(edad),2),
-    Rango_Medio = round((Maximo + Minimo)/2,2),
-    Desv_Estandar = round(sd(edad),2),
-    Coef_Variacion = round(sd(edad)/mean(edad)*100,2),
-    Q1 = quantile(edad,0.25),
-    Q3 = quantile(edad,0.75),
-    Sesgo = round(skewness(edad),2),
-    Curtosis = round(kurtosis(edad),2)
+    n_total_valido = sum(!is.na(p3_1)), # Total de respuestas VÁLIDAS (no NA)
+    x_exito_global = sum(p3_1 == 1, na.rm = TRUE), # Total de respuestas igual a 1
+    Porcentaje_Exito_Global = round((x_exito_global / n_total_valido) * 100, 2)
   )
 
-kable(resumen_edad, caption = "Edad de los encuestados")
+porc_global <- analisis_descriptivo_global_p3_1$Porcentaje_Exito_Global
+n_valido_global <- analisis_descriptivo_global_p3_1$n_total_valido
 
+cat("--- Proporción Global de p3_1 ---\n")
+print(analisis_descriptivo_global_p3_1)
+
+
+
+analisis_descriptivo_global_p8_1 <- base %>%
+  summarise(
+    n_total_valido = sum(!is.na(p8_1)), # Total de respuestas VÁLIDAS (no NA)
+    x_exito_global = sum(p8_1 == 1, na.rm = TRUE), # Total de respuestas igual a 1
+    Porcentaje_Exito_Global = round((x_exito_global / n_total_valido) * 100, 2)
+  )
+
+porc_global <- analisis_descriptivo_global_p3_1$Porcentaje_Exito_Global
+n_valido_global <- analisis_descriptivo_global_p3_1$n_total_valido
+
+cat("--- Proporción Global de p8_1 ---\n")
+print(analisis_descriptivo_global_p8_1)
 ```
 
 -   Medidas de posición no-central: cuartiles, outlier (valores atípicos) que se visualizan en el boxplots
