@@ -136,10 +136,15 @@ kable(resumen_p26, caption = "Minutos continuos dedicados a la lectura por año"
 #BINOMIALES
 
 analisis_descriptivo_global_p3_1 <- base %>%
+<<<<<<< HEAD
   filter(!is.na(p3_1)) %>%
   group_by(Año) %>%
   summarise(
     n_total_valido = sum(p3_1), # Total de respuestas VÁLIDAS (no NA)
+=======
+  summarise(
+    n_total_valido = sum(!is.na(p3_1)), # Total de respuestas VÁLIDAS (no NA)
+>>>>>>> 267f9e356e380ed462ff28ef6ec25504ed1d89b1
     x_exito_global = sum(p3_1 == 1, na.rm = TRUE), # Total de respuestas igual a 1
     Porcentaje_Exito_Global = round((x_exito_global / n_total_valido) * 100, 2)
   )
@@ -153,16 +158,26 @@ print(analisis_descriptivo_global_p3_1)
 
 
 analisis_descriptivo_global_p8_1 <- base %>%
+<<<<<<< HEAD
   filter(!is.na(p8_1)) %>%
   group_by(Año) %>%
   summarise(
     n_total_valido = sum(p8_1), # Total de respuestas VÁLIDAS (no NA)
+=======
+  summarise(
+    n_total_valido = sum(!is.na(p8_1)), # Total de respuestas VÁLIDAS (no NA)
+>>>>>>> 267f9e356e380ed462ff28ef6ec25504ed1d89b1
     x_exito_global = sum(p8_1 == 1, na.rm = TRUE), # Total de respuestas igual a 1
     Porcentaje_Exito_Global = round((x_exito_global / n_total_valido) * 100, 2)
   )
 
+<<<<<<< HEAD
 porc_global <- analisis_descriptivo_global_p8_1$Porcentaje_Exito_Global
 n_valido_global <- analisis_descriptivo_global_p8_1$n_total_valido
+=======
+porc_global <- analisis_descriptivo_global_p3_1$Porcentaje_Exito_Global
+n_valido_global <- analisis_descriptivo_global_p3_1$n_total_valido
+>>>>>>> 267f9e356e380ed462ff28ef6ec25504ed1d89b1
 
 cat("--- Proporción Global de p8_1 ---\n")
 print(analisis_descriptivo_global_p8_1)
